@@ -5,7 +5,7 @@ const body = require('body-parser');
 const express = require('express');
 const socketio = require('socket.io');
 const program = require('commander');
-const DMX = require('./dmx');
+const DMX = require('@node-dmx/dmx-library');
 const A = DMX.Animation;
 
 program

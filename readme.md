@@ -1,16 +1,16 @@
 # node-dmx
 
-DMX-512 controller library for node.js - also includes a Webinterface and HTTP API.
+Webinterface and HTTP API using node-dmx
 
 ## Install
 
-	npm install -g dmx
+`npm install`
 
 ## Webinterface
 
 ### Configuration
 
-The Daemon <code>dmx-web</code> looks for a configuration file in <code>/etc/dmx-web.json</code>. An alternate location can be passed as a command line argument.
+The Daemon `dmx-web` looks for a configuration file in `/etc/dmx-web.json`. An alternate location can be passed as a command line argument.
 
 This configuration file consists of three sections:
 
@@ -22,21 +22,21 @@ In the Server section you can set the listen port and host.
 Under Universes you describe the DMX Universes with details like which output driver to use and which devices are at which address.
 The presets section allows you to specify a state some channels should be set when the preset is called.
 
-A example configuration is in the repository by the name <code>dmx-web-example.conf</code>
+A example configuration is in the repository by the name `dmx-web-example.conf`
 
 ### Run
 
-	dmx-web [-c <full-path to config file>]
+`dmx-web [-c <full-path to config file>]`
 
 ### Run as a service
 
-On MacOS you can run dmx-web as a service by adding a launch script to /Library/LaunchDaemons. See the example file.
+On MacOS you can run dmx-web as a service by adding a launch script to `/Library/LaunchDaemons`. See the example file.
 
 ### Animation HTTP API
 
-A List of Channel Transistions can be POSTed to <code>/animation/&lt;universe&gt;</code>. Each transistion is a JSON Object with at least the <code>to</code> property present. The Value of which also has to be an Object describing the channel end-states.
+A List of Channel Transistions can be POSTed to `/animation/&lt;universe&gt;`. Each transistion is a JSON Object with at least the `to` property present. The Value of which also has to be an Object describing the channel end-states.
 
-A duration for this transistion can be given in the <code>duration</code> property.
+A duration for this transistion can be given in the `duration` property.
 If not specified 0ms is assumed.
 
 Example:
@@ -51,7 +51,7 @@ This sets channels 10 and 20 to zero. Then transistions channel 10 to 255 in 2 s
 
 ## Library API
 
-	var DMX = require('dmx')
+	var DMX = require('@node-dmx/dmx-library')
 
 ### Class DMX
 
@@ -61,8 +61,8 @@ Create a new DMX instance. This class is used to tie multiple universes together
 
 #### dmx.registerDriver(name, module)
 
-- <code>name</code> - String
-- <code>module</code> - Object implementing the Driver API
+- `name` - String
+- `module` - Object implementing the Driver API
 
 
 Register a new DMX Driver module by its name.
@@ -78,26 +78,26 @@ These drivers are currently registered by default:
 
 #### dmx.addUniverse(name, driver, device_id, options)
 
-- <code>name</code> - String
-- <code>driver</code> - String, referring a registered driver
-- <code>device_id</code> - Number or Object
-- <code>options</code> - Object, driver specific options
+- `name` - String
+- `driver` - String, referring a registered driver
+- `device_id` - Number or Object
+- `options` - Object, driver specific options
 
 Add a new DMX Universe with a name, driver and an optional device_id used by the driver to identify the device.
 For enttec-usb-dmx-pro and enttec-open-usb-dmx device_id is the path the the serial device. For artnet it is the target ip.
 
 #### dmx.update(universe, channels)
 
-- <code>universe</code> - String, name of the universe
-- <code>channels</code> - Object, keys are channel numbers, values the values to set that channel to
+- `universe` - String, name of the universe
+- `channels` - Object, keys are channel numbers, values the values to set that channel to
 
-Update one or multiple channels of a universe. Also emits a <code>update</code> Event with the same information.
+Update one or multiple channels of a universe. Also emits a `update` Event with the same information.
 
 
 #### DMX.devices
 
 A JSON Object describing some Devices and how many channels they use.
-Currently not many devices are in there but more can be added to the <code>devices.js</code> file. Pull requests welcome ;-)
+Currently not many devices are in there but more can be added to the `devices.js` file. Pull requests welcome ;-)
 
 The following Devices are known:
 
@@ -114,12 +114,12 @@ Create a new DMX Animation instance. This can be chained similar to jQuery.
 
 #### animation.add(to, duration, options)
 
-- <code>to</code> - Object, keys are channel numbers, values the values to set that channel to
-- <code>duration</code> - Number, duration in ms
-- <code>options</code> - Object
+- `to` - Object, keys are channel numbers, values the values to set that channel to
+- `duration` - Number, duration in ms
+- `options` - Object
 
 Add an animation Step.
-The options Object takes an <code>easing</code> key which allows to set a easing function from the following list:
+The options Object takes an `easing` key which allows to set a easing function from the following list:
 
 - linear (default)
 - inQuad
@@ -158,7 +158,7 @@ Returns a Animation object with the animation step added.
 
 #### animation.delay(duration)
 
-- <code>duration</code> - Number, duration in ms
+- `duration` - Number, duration in ms
 
 Delay the next animation step for duration.
 Returns a Animation object with the delay step added.
@@ -166,8 +166,8 @@ Returns a Animation object with the delay step added.
 
 #### animation.run(universe, onFinish)
 
-- <code>universe</code> - Object, reference to the universe driver
-- <code>onFinish</code> - Function, called when the animation is done
+- `universe` - Object, reference to the universe driver
+- `onFinish` - Function, called when the animation is done
 
 Run the Animation on the specified universe.
 
