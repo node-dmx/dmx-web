@@ -4,7 +4,7 @@ Webinterface and HTTP API using node-dmx
 
 ## Install
 
-`npm install`
+`npm install -g dmx-web`
 
 ## Webinterface
 
