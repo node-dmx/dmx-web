@@ -5,7 +5,7 @@ const body = require('body-parser');
 const express = require('express');
 const socketio = require('socket.io');
 const program = require('commander');
-const DMX = require('@node-dmx/dmx-library');
+const DMX = require('dmx');
 const A = DMX.Animation;
 
 program
@@ -48,62 +48,12 @@ function DMXWeb() {
 
   app.use(body.json());
 
+  app.set('view engine', 'pug')
+  app.use(express.static('public'))
+
   app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-  });
-
-  app.get('/config', (req, res) => {
-    const response = {'devices': dmx.devices, 'universes': {}};
-
-    Object.keys(config.universes).forEach(key => {
-      response.universes[key] = config.universes[key].devices;
-    });
-
-    res.json(response);
-  });
-
-  app.get('/state/:universe', (req, res) => {
-    if (!(req.params.universe in dmx.universes)) {
-      res.status(404).json({'error': 'universe not found'});
-      return;
-    }
-
-    res.json({'state': dmx.universeToObject(req.params.universe)});
-  });
-
-  app.post('/state/:universe', (req, res) => {
-    if (!(req.params.universe in dmx.universes)) {
-      res.status(404).json({'error': 'universe not found'});
-      return;
-    }
-
-    dmx.update(req.params.universe, req.body);
-    res.json({'state': dmx.universeToObject(req.params.universe)});
-  });
-
-  app.post('/animation/:universe', (req, res) => {
-    try {
-      const universe = dmx.universes[req.params.universe];
-
-      // preserve old states
-      const old = dmx.universeToObject(req.params.universe);
-
-      const animation = new A();
-
-      for (const step in req.body) {
-        animation.add(
-          req.body[step].to,
-          req.body[step].duration || 0,
-          req.body[step].options || {}
-        );
-      }
-      animation.add(old, 0);
-      animation.run(universe);
-      res.json({'success': true});
-    } catch (e) {
-      console.log(e);
-      res.json({'error': String(e)});
-    }
+    res.render('index', { title: 'Hey', message: 'Hello there!' })
+    // res.sendFile(__dirname + '/index.html');
   });
 
   io.sockets.on('connection', socket => {

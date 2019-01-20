@@ -1,0 +1,31 @@
+body {
+  background: #222;
+  color: #eee;
+}
+
+h1 {
+  clear: both;
+}
+
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 175px;
+    margin: 10px 12px 10px 12px;
+}
+
+.dmx-container {
+  margin:auto;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.dmx-fader {
+  text-align: center;
+  background-color: #444444;
+  margin: 2px 2px 2px 2px;
+  border-radius: 5px;
+}

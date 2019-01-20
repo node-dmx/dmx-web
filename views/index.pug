@@ -1,0 +1,65 @@
+html
+
+  head
+
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="apple-mobile-web-app-capable" content="yes")
+
+    title DMX WEB
+
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous")
+
+    link(rel="stylesheet" href="/css/main.css")
+
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous")
+    script(src="/socket.io/socket.io.js")
+
+  body
+
+    nav(class="navbar navbar-expand-lg navbar-light bg-light")
+      a(class="navbar-brand" href="#") DMX WEB
+      
+      button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation")
+        span(class="navbar-toggler-icon")
+
+      div(class="collapse navbar-collapse" id="main-navbar")
+        ul(class="navbar-nav mr-auto")
+          li(class="nav-item active")
+            a(class="nav-link" href="#home") Home
+          
+          li(class="nav-item")
+            a(class="nav-link" href="#control") Control
+          
+          li(class="nav-item")
+            a(class="nav-link" href="#edit") Editor
+          
+          li(class="nav-item")
+            a(class="nav-link" href="#sliders") Simple Sliders
+        
+
+    div(class="tab-content" id="main-content-tabs")
+      div(class="tab-pane" id="home")
+          p tab1
+      div(class="tab-pane" id="control")
+          p tab2
+      div(class="tab-pane" id="edit")
+          p tab3
+      div(class="tab-pane" id="sliders")
+        br
+        .container
+          .dmx-container
+            each _, channel in Array(512)
+              .dmx-fader
+                input(class="dmx-channel" type="range" orient="vertical" universe="office" channel=channel+1 min=0 max=255)
+                .dmx-label
+                  =channel+1
+
+
+
+  script(src="/js/navbar.js")
+  script(src="/js/socket.js")
+  script(src="/js/slider.js")
+  script(src="/js/main.js")
