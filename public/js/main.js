@@ -3,6 +3,7 @@ const App = function () {
 	this.socket.init()
 
 	this.sliderController = new SliderController(this)
+	this.showController = new ShowController(this)
 
 	return this
 }

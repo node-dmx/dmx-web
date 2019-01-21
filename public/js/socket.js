@@ -3,11 +3,6 @@ const DmxSocket = function(app) {
     this.init = () => {
         this.socket = io();
 
-        this.socket.on('init', (msg) => {
-            const setup = msg.setup
-            const devices = msg.devices
-        });
-
         this.bindListeners()
 
         this.socket.emit('request_refresh');
@@ -17,14 +12,27 @@ const DmxSocket = function(app) {
      * Send DMX data
      */
     this.update = (universe, data) => {
-        this.socket.emit("update", universe, data)
+        this.socket.emit("update-dmx", universe, data)
+    }
+
+    this.setScene = (sceneId) => {
+        this.socket.emit("update-scene", {sceneId})
     }
 
     this.bindListeners = () => {
+
         /**
-         * recieve updates and update ui
+         * Load/Reload config
          */
-        this.socket.on('update', function(universe, update) {
+        this.socket.on('config', (msg) => {
+            const setup = msg.setup
+            const devices = msg.devices
+        });
+
+        /**
+         * Recieve dmx updates and update ui
+         */
+        this.socket.on('update-dmx', function(universe, update) {
             for (let channel in update) {
                 app.sliderController.setSliderValue(universe, channel, update[channel])
             }

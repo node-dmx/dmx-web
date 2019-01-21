@@ -44,7 +44,13 @@ html
       div(class="tab-pane" id="home")
           p tab1
       div(class="tab-pane" id="control")
-          p tab2
+        br
+        .container-fluid
+          .row
+            - for(let i = 0 ; i < scenes.length; i++)
+              .col-1
+                button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
+
       div(class="tab-pane" id="edit")
           p tab3
       div(class="tab-pane" id="sliders")
@@ -62,4 +68,5 @@ html
   script(src="/js/navbar.js")
   script(src="/js/socket.js")
   script(src="/js/slider.js")
+  script(src="/js/control.js")
   script(src="/js/main.js")

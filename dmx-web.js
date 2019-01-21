@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const fs = require('fs');
 const http = require('http');
 const body = require('body-parser');
@@ -6,73 +7,129 @@ const express = require('express');
 const socketio = require('socket.io');
 const program = require('commander');
 const DMX = require('dmx');
-const A = DMX.Animation;
+const Scenes = require("./lib/Scenes.js")
 
 program
   .version('0.0.1')
   .option('-c, --config <file>', 'Read config from file [/etc/dmx-web.json]', '/etc/dmx-web.json')
   .parse(process.argv);
 
-const	config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
+const DMXWeb = () => {
 
-function DMXWeb() {
-  const app = express();
-  const server = http.createServer(app);
-  const io = socketio.listen(server);
+  this.makeServer = () => {
+    const listenPort = config.server.listen_port || 8080;
+    const listenHost = config.server.listen_host || '::';
 
-  const dmx = new DMX(config);
+    const server = http.createServer(app);
 
-  for (const universe in config.universes) {
-    dmx.addUniverse(
-      universe,
-      config.universes[universe].output.driver,
-      config.universes[universe].output.device,
-      config.universes[universe].output.options
-    );
+    server.listen(listenPort, listenHost, null, () => {
+      if (config.server.uid && config.server.gid) {
+        try {
+          process.setuid(config.server.uid);
+          process.setgid(config.server.gid);
+        } catch (err) {
+          console.log(err);
+          process.exit(1);
+        }
+      }
+    });
+
+    return server
   }
 
-  const listenPort = config.server.listen_port || 8080;
-  const listenHost = config.server.listen_host || '::';
+  this.getDMX = () => {
+    const dmx = new DMX(config);
 
-  server.listen(listenPort, listenHost, null, () => {
-    if (config.server.uid && config.server.gid) {
-      try {
-        process.setuid(config.server.uid);
-        process.setgid(config.server.gid);
-      } catch (err) {
-        console.log(err);
-        process.exit(1);
-      }
+    for (const universe in config.universes) {
+      dmx.addUniverse(
+        universe,
+        config.universes[universe].output.driver,
+        config.universes[universe].output.device,
+        config.universes[universe].output.options
+      );
     }
-  });
 
-  app.use(body.json());
+    return dmx;
+  }
 
-  app.set('view engine', 'pug')
-  app.use(express.static('public'))
+  this.makeApp = () => {
+    const app = express();
 
-  app.get('/', (req, res) => {
-    res.render('index', { title: 'Hey', message: 'Hello there!' })
-    // res.sendFile(__dirname + '/index.html');
-  });
+    app.use(body.json());
 
-  io.sockets.on('connection', socket => {
-    socket.emit('init', {'devices': dmx.devices, 'setup': config});
+    app.set('view engine', 'pug')
+    app.use(express.static('public'))
 
-    socket.on('request_refresh', () => {
-      for (const universe in config.universes) {
-        socket.emit('update', universe, dmx.universeToObject(universe));
-      }
+    app.get('/', (req, res) => {
+      res.render('index', {
+        scenes: scenes.getObject()
+      })
     });
 
-    socket.on('update', (universe, update) => {
-      dmx.update(universe, update);
-    });
+    return app;
+  }
 
-    dmx.on('update', (universe, update) => {
-      socket.emit('update', universe, update);
+  this.makeSocketServer = () => {
+    const io = socketio.listen(server);
+
+    io.sockets.on('connection', (socket) => {
+
+      /**
+       * Send config on initial connection
+       */
+      socket.emit('config', {
+        'devices': dmx.devices,
+        'scenes': scenes.getObject()
+      });
+
+      /**
+       * Send whole refresh
+       */
+      socket.on('request_refresh', () => {
+        socket.emit('config', {
+          'devices': dmx.devices,
+          'presets': config.presets
+        });
+
+        for (const universe in config.universes) {
+          socket.emit('update-dmx', universe, dmx.universeToObject(universe));
+        }
+      });
+
+      /**
+       * On update dmx command
+       */
+      socket.on('update-dmx', (universe, update) => {
+        dmx.update(universe, update);
+      });
+
+      socket.on('update-scene', (data) => {
+        scenes.updateScene(data)
+      });
+
+      /**
+       * Send updated dmx values to client
+       */
+      dmx.on('update', (universe, update) => {
+        socket.emit('update-dmx', universe, update);
+      });
     });
-  });
+  }
+
+  this.makeScenes = () => {
+    const scenes = new Scenes(dmx, config.presets, config.scenesFileLocation)
+
+    return scenes;
+  }
+
+  const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
+  const dmx = this.getDMX()
+  const scenes = this.makeScenes()
+  const app = this.makeApp();
+  const server = this.makeServer()
+  const io = this.makeSocketServer()
 }
+
+
 
 DMXWeb();

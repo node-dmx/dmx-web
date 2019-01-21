@@ -7,8 +7,6 @@ const SliderController = function(app) {
 
 		data[slider.attr("channel")] = parseInt(slider.val())
 
-		console.log(data)
-
 		app.socket.update(slider.attr("universe"), data)
 	})
 
