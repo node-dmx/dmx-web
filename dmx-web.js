@@ -16,6 +16,8 @@ program
 
 const DMXWeb = () => {
 
+  this.universes = {}
+
   this.makeServer = () => {
     const listenPort = config.server.listen_port || 8080;
     const listenHost = config.server.listen_host || '::';
@@ -41,7 +43,7 @@ const DMXWeb = () => {
     const dmx = new DMX(config);
 
     for (const universe in config.universes) {
-      dmx.addUniverse(
+      this.universes[universe] = dmx.addUniverse(
         universe,
         config.universes[universe].output.driver,
         config.universes[universe].output.device,
@@ -117,7 +119,7 @@ const DMXWeb = () => {
   }
 
   this.makeScenes = () => {
-    const scenes = new Scenes(dmx, config.presets, config.scenesFileLocation)
+    const scenes = new Scenes(dmx, this.universes, config.presets, config.scenesFileLocation)
 
     return scenes;
   }
