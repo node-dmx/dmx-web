@@ -38,6 +38,8 @@ html
           
           li(class="nav-item")
             a(class="nav-link" href="#sliders") Simple Sliders
+
+        button.btn.btn-danger.dmx-scene-trigger(scene_id="default-blackout")="Blackout"
         
 
     div(class="tab-content" id="main-content-tabs")
@@ -50,7 +52,7 @@ html
             - for(let i = 0 ; i < scenes.length; i++)
               .col-md-2.col-sm-3
                 .dmx-scene-trigger-container
-                  button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
+                  button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger.dmx-scene-trigger-control(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
 
       div(class="tab-pane" id="edit")
           p tab3

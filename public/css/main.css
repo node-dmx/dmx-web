@@ -34,6 +34,6 @@ input[type=range][orient=vertical]
   padding: 10px 0px 10px 0px;
 }
 
-.dmx-scene-trigger {
+.dmx-scene-trigger-control {
   min-height: 70px;
 }
