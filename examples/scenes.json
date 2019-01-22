@@ -1,0 +1,56 @@
+[
+	{
+		"id": "dd15e921-1cf6-4cd0-b865-b81a827e01ac",
+		"label": "Test 1",
+		"type": "full",
+		"values": [
+			{
+				"channel": 1,
+				"value": 254,
+				"type": "static",
+				"universe": "office"
+			}
+		]
+	},
+	{
+		"id": "a3958770-794c-49e7-b1b7-018eb7a08d64",
+		"label": "Test 2",
+		"type": "full",
+		"values": [
+			{
+				"channel": 1,
+				"value": 0,
+				"type": "static",
+				"universe": "office"
+			}
+		]
+	},
+	{
+		"id": "22f8d84c-342e-463e-8aae-4535264cd4a9",
+		"label": "Animation Test",
+		"type": "full",
+		"color": "#33dd33",
+		"values": [
+			{
+				"universe": "office",
+				"type": "animation",
+				"steps": [
+					{
+						"channels": {
+							"1": 255,
+							"3": 255
+						},
+						"delay": 5000
+					},
+					{
+						"channels": {
+							"1": 0,
+							"3": 0
+						},
+						"delay": 5000
+					}
+				]
+			}
+		]
+	}
+]
