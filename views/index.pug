@@ -55,7 +55,22 @@ html
                   button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger.dmx-scene-trigger-control(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
 
       div(class="tab-pane" id="edit")
-          p tab3
+        br
+        .container-fluid
+          .row
+            .col-md-2.col-sm-4
+              .list-group
+                - for(let i = 0 ; i < scenes.length; i++)
+                  - if(scenes[i].id == "default-blackout") continue
+                  button.list-group-item.list-group-item-action(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
+
+            .col-md-10.col-sm-8
+              .card.bg-dark.text-white
+                .card-header
+                  h1 Edit Scene
+                .card-body
+                  p Select a scene from the menu on the left
+
       div(class="tab-pane" id="sliders")
         br
         .container
