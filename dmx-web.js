@@ -105,8 +105,27 @@ const DMXWeb = () => {
         dmx.update(universe, update);
       });
 
+      /*
+       * On update scene command
+       */
       socket.on('update-scene', (data) => {
         scenes.updateScene(data)
+      });
+
+      /*
+       * On data request command
+       */
+      socket.on('data-request', (packet) => {
+        switch(packet.type){
+          case "get-scene":
+            socket.emit("data-response", {
+              uuid: packet.uuid,
+              response: scenes.getSceneById(packet.data.sceneId) || {}
+            })
+          break;
+          default:
+            console.log("Warning! Invalid data-request type received!")
+        }
       });
 
       /**

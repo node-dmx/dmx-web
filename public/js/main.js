@@ -4,6 +4,7 @@ const App = function () {
 
 	this.sliderController = new SliderController(this)
 	this.showController = new ShowController(this)
+	this.editorController = new EditorController(this)
 
 	return this
 }
