@@ -1,10 +1,11 @@
 const App = function () {
-	this.socket = new DmxSocket(this)
-	this.socket.init()
 
 	this.sliderController = new SliderController(this)
 	this.showController = new ShowController(this)
 
+	this.socket = new DmxSocket(this)
+	this.socket.init()
+	
 	return this
 }
 

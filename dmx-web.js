@@ -6,7 +6,7 @@ const body = require('body-parser');
 const express = require('express');
 const socketio = require('socket.io');
 const program = require('commander');
-const DMX = require('dmx');
+const DMX = require('../dmx');
 const Scenes = require("./lib/Scenes.js")
 
 program
@@ -15,8 +15,6 @@ program
   .parse(process.argv);
 
 const DMXWeb = () => {
-
-  this.universes = {}
 
   this.makeServer = () => {
     const listenPort = config.server.listen_port || 8080;
@@ -43,7 +41,7 @@ const DMXWeb = () => {
     const dmx = new DMX(config);
 
     for (const universe in config.universes) {
-      this.universes[universe] = dmx.addUniverse(
+      dmx.addUniverse(
         universe,
         config.universes[universe].output.driver,
         config.universes[universe].output.device,
@@ -84,6 +82,10 @@ const DMXWeb = () => {
         'scenes': scenes.getObject()
       });
 
+      for (const universe in dmx.universes) {
+        socket.emit('update-dmx', universe, dmx.universeToObject(universe));
+      }
+
       /**
        * Send whole refresh
        */
@@ -93,7 +95,7 @@ const DMXWeb = () => {
           'presets': config.presets
         });
 
-        for (const universe in config.universes) {
+        for (const universe in dmx.universes) {
           socket.emit('update-dmx', universe, dmx.universeToObject(universe));
         }
       });
