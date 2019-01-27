@@ -19,8 +19,8 @@ html
 
   body
 
-    nav(class="navbar navbar-expand-lg navbar-light bg-light")
-      a(class="navbar-brand" href="#") DMX WEB
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href="#") DMX WEB
       
       button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation")
         span(class="navbar-toggler-icon")
@@ -55,8 +55,38 @@ html
                 .dmx-scene-trigger-container
                   button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger.dmx-scene-trigger-control(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
 
-      div(class="tab-pane" id="edit")
-          p tab3
+      div.tab-pane(id="edit")
+
+        .container
+
+          br
+
+          .row-fluid
+            .d-flex.flex-row
+              div.w-100.m-1
+                button.btn-dark.btn.btn-block New Scene
+              div.w-100.m-1
+                button.btn-dark.btn.btn-block Add Fixture
+              div.w-100.m-1
+                button.btn-dark.btn.btn-block New Fixture Type
+              
+
+          br
+
+          .row
+            .col-md-3.col-sm-4
+              .list-group
+                - for(let i = 0 ; i < scenes.length; i++)
+                  - if(scenes[i].id == "default-blackout") continue
+                  button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
+
+            .col-md-9.col-sm-8
+              .card.bg-dark.text-white
+                .card-header
+                  h1 Edit Scene
+                .card-body
+                  p Select a scene from the menu on the left
+
       div(class="tab-pane" id="sliders")
         br
         .container
@@ -73,4 +103,5 @@ html
   script(src="/js/socket.js")
   script(src="/js/slider.js")
   script(src="/js/control.js")
+  script(src="/js/editor.js")
   script(src="/js/main.js")

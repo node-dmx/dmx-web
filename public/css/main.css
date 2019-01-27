@@ -1,6 +1,5 @@
 body {
   background: #222;
-  color: #eee;
 }
 
 h1 {
@@ -36,4 +35,8 @@ input[type=range][orient=vertical]
 
 .dmx-scene-trigger-control {
   min-height: 70px;
+}
+
+.editor-scene-selector {
+  cursor: pointer;
 }
