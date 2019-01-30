@@ -115,6 +115,13 @@ const DMXWeb = () => {
       });
 
       /*
+       * On save scene command
+       */
+      socket.on('save-scene', (data) => {
+        scenes.saveScene(data)
+      });
+
+      /*
        * On data request command
        */
       socket.on('data-request', (packet) => {
