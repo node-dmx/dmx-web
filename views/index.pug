@@ -82,19 +82,43 @@ html
                   button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
 
             .col-md-9.col-sm-8
-              .card.bg-dark.text-white
+
+              .card.bg-dark.text-white#editor-scene-help
+                .card-body
+                  h5.text-secondary Select scene from the right to edit
+
+              .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
                 .card-header
                   h1#editor-scene-title Edit Scene
                 .card-body
                   
                   h4 Static
                   br
+                  div.row
+                    div.col-sm-4
+                      p Universe
+                    div.col-sm-4
+                      p Channel
+                    div.col-sm-3
+                      p Value
+                    div.col-sm-1
                   div#editor-scene-static
+                    p.text-secondary.text-center No Static Values 
+
+                  br
+
+                  button.btn.btn-secondary.btn-block#editor-scene-add-static Add
+
                   hr
 
                   h4 Animations
                   br
                   div#editor-scene-animations
+                    p.text-secondary.text-center No Animations
+
+                  br
+
+                  button.btn.btn-secondary.btn-block Add
 
                 .card-footer
                   button.btn.btn-primary#editor-scene-save Save

@@ -9,6 +9,18 @@
         "channel": "1",
         "value": "255",
         "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "255",
+        "universe": "office"
       }
     ]
   },
@@ -18,9 +30,15 @@
     "type": "full",
     "values": [
       {
-        "channel": 1,
-        "value": 0,
         "type": "static",
+        "channel": "1",
+        "value": "0",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "255",
         "universe": "office"
       }
     ]
@@ -30,70 +48,6 @@
     "label": "Animation Test",
     "type": "full",
     "color": "#33dd33",
-    "values": [
-      {
-        "label": "Movement",
-        "universe": "office",
-        "type": "animation",
-        "steps": [
-          {
-            "channels": {
-              "1": 255,
-              "3": 192
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 192,
-              "3": 64
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 128,
-              "3": 192
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 64,
-              "3": 64
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 0,
-              "3": 192
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 64,
-              "3": 64
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 128,
-              "3": 192
-            },
-            "delay": 1000
-          },
-          {
-            "channels": {
-              "1": 192,
-              "3": 64
-            },
-            "delay": 1000
-          }
-        ]
-      }
-    ]
+    "values": []
   }
 ]

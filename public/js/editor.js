@@ -2,16 +2,42 @@ const EditorController = function(app) {
 
   this.currentScene = null
 
+  /**
+   * On select scene
+   */
   $(".editor-scene-selector").on("click", (e) => {
     app.socket.getScene($(e.target).attr("scene_id"), (scene) => {
-      console.log(scene)
+      $("#editor-scene-help").hide()
+      $("#editor-scene-editor").show()
+
       this.currentScene = scene
       this.drawSceneEditor(scene)
     })
   })
 
+  /**
+   * On save scene
+   */
   $("#editor-scene-save").on("click", (e) => {
     this.saveScene()
+  })
+
+  /**
+   * On add static row
+   */
+  $("#editor-scene-add-static").on("click", (e) => {
+    $("#editor-scene-static").append(this.getStaticEditorRowHtml({
+      universe: "",
+      channel: "0",
+      value: 0,
+    }))
+  })
+
+  /**
+   * On remove static row
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-static-row-remove", (e) => {
+    $(e.target).closest(".editor-scene-static-row").remove()
   })
 
   this.saveScene = () => {
@@ -21,17 +47,19 @@ const EditorController = function(app) {
 
     scene.values.push(...this.compileStaticScenes())
 
-    console.log(scene)
     app.socket.saveScene(scene)
   }
 
+  /**
+   * Read HTML and turn into scene values
+   */
   this.compileStaticScenes = () => {
     const values = []
 
     $("div.editor-scene-static-row").each((i, e) => {
-      const channel = $(e).find(".editor-scene-static-channel").text()
+      const channel = $(e).find(".editor-scene-static-channel").val()
       const value = $(e).find(".editor-scene-static-value").val()
-      const universe = $(e).attr("editor-universe")
+      const universe = $(e).find(".editor-scene-static-universe").val()
 
       values.push({
         type: "static",
@@ -49,7 +77,6 @@ const EditorController = function(app) {
 
     $("#editor-scene-static").html(this.getStaticEditorHtml(scene))
     $("#editor-scene-animations").html(this.getAnimationEditorHtml(scene))
-
   }
 
   this.getAnimationEditorHtml = (scene) => {
@@ -109,17 +136,29 @@ const EditorController = function(app) {
      */
     for(const val of scene.values){
       if(val.type === "static"){
-        staticValuesHtml += `
-          <div class="input-group editor-scene-static-row" editor-universe="${val.universe}">
-            <div class="input-group-prepend">
-              <span class="input-group-text editor-scene-static-channel">${val.channel}</span>
-            </div>
-            <input type="text" class="form-control editor-scene-static-value" value="${val.value}"></input>
-          </div>`
+        staticValuesHtml += this.getStaticEditorRowHtml(val)
       }
     }
 
     return staticValuesHtml
+  }
+
+  this.getStaticEditorRowHtml = (val) => {
+    return `
+          <div class="editor-scene-static-row mb-3 row">
+            <div class="col-md-4">
+              <input type="text" class="form-control editor-scene-static-universe col-sm-12" value="${val.universe}"></input>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control editor-scene-static-channel col-sm-12" value="${val.channel}"></input>
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control editor-scene-static-value col-sm-12" value="${val.value}"></input>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-danger btn-block editor-scene-static-row-remove"><span aria-hidden="true">&times;</span></button>
+            </div>
+          </div>`
   }
 
   return this
