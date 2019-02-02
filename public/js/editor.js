@@ -26,7 +26,7 @@ const EditorController = function(app) {
    * On add static row
    */
   $("#editor-scene-add-static").on("click", (e) => {
-    $("#editor-scene-static").append(this.getStaticEditorRowHtml({
+    $("#editor-scene-static").append(this.generateStaticEditorRowHtml({
       universe: "",
       channel: "0",
       value: 0,
@@ -40,9 +40,55 @@ const EditorController = function(app) {
     $(e.target).closest(".editor-scene-static-row").remove()
   })
 
+  /**
+   * On add animation row
+   */
+  $("#editor-scene-add-animation").on("click", (e) => {
+    $("#editor-scene-animations").append(this.generateAnimationEditorRowHtml({
+      universe: "",
+      label: "New Animation",
+      steps: [{
+        channels: {
+          0: 0
+        },
+        delay: 1000
+      }]
+    }))
+  })
+
+  /**
+   * On add animation value
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-step-add-row", (e) => {
+    $(e.target).closest(".editor-scene-animation-step").find(".editor-scene-animation-step-values").append(this.generateAnimationStepRowHtml(0, 0))
+  })
+
+  /**
+   * On add animation step
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-add-step", (e) => {
+    const container = $(e.target).closest(".editor-scene-animation-step").find(".editor-scene-animation-step-container")
+    const count = container.children().length + 1
+
+    container.append(
+      this.generateAnimationEditorStepHtml(count, {
+        channels: {
+          0: 0
+        },
+        delay: 1000
+      }))
+  })
+
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-step-row-remove", (e) => {
+    $(e.target).closest(".editor-scene-animation-step-row").remove()
+  })
+
+  /**
+   * Compile scene and send to server
+   */
   this.saveScene = () => {
     const scene = this.currentScene
-    
+
     scene.values = []
 
     scene.values.push(...this.compileStaticScenes())
@@ -75,52 +121,19 @@ const EditorController = function(app) {
   this.drawSceneEditor = (scene) => {
     $("#editor-scene-title").text(scene.label)
 
-    $("#editor-scene-static").html(this.getStaticEditorHtml(scene))
-    $("#editor-scene-animations").html(this.getAnimationEditorHtml(scene))
+    $("#editor-scene-static").html(this.generateStaticEditorHtml(scene))
+    $("#editor-scene-animations").html(this.generateAnimationEditorHtml(scene))
   }
 
-  this.getAnimationEditorHtml = (scene) => {
+  this.generateAnimationEditorHtml = (scene) => {
     let animationValuesHtml = ""
 
     moment.relativeTimeThreshold('ss', 0);
 
-    for(const val of scene.values){
-      if(val.type === "animation"){
-        
-        animationValuesHtml += `
-          <div class="card bg-secondary text-white">
-            <div class="card-header">
-              <h5>${val.label}</h5>
-            </div>
-            <div class="card-body">
-        `
+    for (const val of scene.values) {
+      if (val.type === "animation") {
 
-        let count = 0;
-
-        for(const step of val.steps){
-
-          count++
-
-          animationValuesHtml += `<div class="card bg-dark text-white mb-3"><div class="card-header"><h5>Step ${count} (Delay: ${step.delay}ms)</h5></div><div class="card-body">`
-
-          for(const channel of Object.keys(step.channels)){
-            animationValuesHtml += `
-              <div class="input-group mb-1">
-                <div class="input-group-prepend ">
-                  <span class="input-group-text">${channel}</span>
-                </div>
-                <input type="text" class="form-control" value="${step.channels[channel]}"></input>
-              </div>
-              `
-          }
-
-          animationValuesHtml += "</div></div>"
-        }
-
-        animationValuesHtml += `
-            </div>
-          </div>
-        `
+        animationValuesHtml += this.generateAnimationEditorRowHtml(val)
 
       }
     }
@@ -128,22 +141,108 @@ const EditorController = function(app) {
     return animationValuesHtml
   }
 
-  this.getStaticEditorHtml = (scene) => {
+  this.generateAnimationEditorRowHtml = (val) => {
+    let html = ""
+
+    html += `
+          <div class="card bg-secondary text-white editor-scene-animation-step">
+            <div class="card-header">
+              <h5>${val.label}</h5>
+            </div>
+            <div class="card-body">
+              <div class="editor-scene-animation-step-container">
+        `
+
+    let count = 0;
+
+    for (const step of val.steps) {
+
+      count++
+
+      html += this.generateAnimationEditorStepHtml(count, step)
+    }
+
+    html += `
+              </div>
+            <button class="btn btn-dark btn-block editor-scene-animation-add-step">Add Step</button>
+            </div>
+          </div>
+          <br>
+        `
+
+    return html
+  }
+
+  this.generateAnimationEditorStepHtml = (count, step) => {
+    let html = ""
+
+    html += `
+        <div class="card bg-dark text-white mb-3">
+          <div class="card-header">
+            <h5>Step ${count} (Delay: ${step.delay}ms)</h5>
+          </div>
+          <div class="card-body editor-scene-animation-step">
+
+          <div class="mb-3 row">
+            <div class="col-md-6">
+              Channel
+            </div>
+            <div class="col-md-53">
+              Value
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+
+          <div class="mb-3 editor-scene-animation-step-values">
+      `
+
+    for (const channel of Object.keys(step.channels)) {
+      html += this.generateAnimationStepRowHtml(channel, step.channels[channel])
+    }
+
+    html += `
+          </div>
+
+          <button class="btn btn-secondary btn-block editor-scene-animation-step-add-row">Add Value</button>
+
+        </div>
+      </div>
+      `
+
+    return html
+  }
+
+  this.generateAnimationStepRowHtml = (channel, value) => {
+    return `
+          <div class="editor-scene-animation-step-row mb-3 row">
+            <div class="col-md-6">
+              <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control editor-scene-animation-step-channel-value col-sm-12" value="${value}"></input>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-danger btn-block editor-scene-animation-step-row-remove"><span aria-hidden="true">&times;</span></button>
+            </div>
+          </div>`
+  }
+
+  this.generateStaticEditorHtml = (scene) => {
     let staticValuesHtml = ""
 
     /**
      * Build static
      */
-    for(const val of scene.values){
-      if(val.type === "static"){
-        staticValuesHtml += this.getStaticEditorRowHtml(val)
+    for (const val of scene.values) {
+      if (val.type === "static") {
+        staticValuesHtml += this.generateStaticEditorRowHtml(val)
       }
     }
 
     return staticValuesHtml
   }
 
-  this.getStaticEditorRowHtml = (val) => {
+  this.generateStaticEditorRowHtml = (val) => {
     return `
           <div class="editor-scene-static-row mb-3 row">
             <div class="col-md-4">
