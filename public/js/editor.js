@@ -10,6 +10,8 @@ const EditorController = function(app) {
       $("#editor-scene-help").hide()
       $("#editor-scene-editor").show()
 
+      console.log(scene)
+
       this.currentScene = scene
       this.drawSceneEditor(scene)
     })
@@ -67,7 +69,7 @@ const EditorController = function(app) {
    * On add animation step
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-add-step", (e) => {
-    const container = $(e.target).closest(".editor-scene-animation-step").find(".editor-scene-animation-step-container")
+    const container = $(e.target).closest(".editor-scene-animation").find(".editor-scene-animation-step-container")
     const count = container.children().length + 1
 
     container.append(
@@ -92,8 +94,45 @@ const EditorController = function(app) {
     scene.values = []
 
     scene.values.push(...this.compileStaticScenes())
+    scene.values.push(...this.compileAnimationScenes())
+
+    console.log(scene)
 
     app.socket.saveScene(scene)
+  }
+
+  /**
+   * Read HTML and turn into scene values
+   */
+  this.compileAnimationScenes = () => {
+    const values = []
+
+    $("#editor-scene-animations").find(".editor-scene-animation").each((i, e) => {
+      const animation = {
+        type: "animation",
+        label: $(e).attr("editor-scene-animation-label"),
+        universe: $(e).attr("editor-scene-animation-universe"),
+        steps: []
+      }
+
+      $(e).find(".editor-scene-animation-step-container").find(".editor-scene-animation-step").each((si, se) => {
+
+        const step = {
+          delay: $(se).attr("editor-scene-animation-delay"),
+          channels: {}
+        }
+
+        $(se).find(".editor-scene-animation-step-row").each((svi, sv) => {
+          step.channels[$(sv).find(".editor-scene-animation-step-channel").val()] = $(sv).find(".editor-scene-animation-step-channel-value").val()
+        })
+
+        animation.steps.push(step)
+      })
+
+      values.push(animation)
+    })
+
+    return values
   }
 
   /**
@@ -145,7 +184,7 @@ const EditorController = function(app) {
     let html = ""
 
     html += `
-          <div class="card bg-secondary text-white editor-scene-animation-step">
+          <div class="card bg-secondary text-white editor-scene-animation" editor-scene-animation-label="${val.label}" editor-scene-animation-universe="${val.universe}">
             <div class="card-header">
               <h5>${val.label}</h5>
             </div>
@@ -181,7 +220,7 @@ const EditorController = function(app) {
           <div class="card-header">
             <h5>Step ${count} (Delay: ${step.delay}ms)</h5>
           </div>
-          <div class="card-body editor-scene-animation-step">
+          <div class="card-body editor-scene-animation-step" editor-scene-animation-delay="${step.delay}">
 
           <div class="mb-3 row">
             <div class="col-md-6">
