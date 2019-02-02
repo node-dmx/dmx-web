@@ -81,10 +81,16 @@ const EditorController = function(app) {
       }))
   })
 
+  /**
+   * On remove animation step row
+   */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-row-remove", (e) => {
     $(e.target).closest(".editor-scene-animation-step-row").remove()
   })
 
+  /**
+   * On edit animation label
+   */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-edit-label", (e) => {
     const container = $(e.target).closest("h5")
 
@@ -99,6 +105,20 @@ const EditorController = function(app) {
       container.closest(".editor-scene-animation").attr("editor-scene-animation-label", newLabel)
     }
 
+  })
+
+  /**
+   * On remove animation
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-remove", (e) => {
+    $(e.target).closest(".editor-scene-animation").remove()
+  })
+
+  /**
+   * On remove animation step
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-step-remove", (e) => {
+    $(e.target).closest(".editor-scene-animation-step").remove()
   })
 
   /**
@@ -240,7 +260,7 @@ const EditorController = function(app) {
     let html = ""
 
     html += `
-        <div class="card bg-dark text-white mb-3">
+        <div class="card bg-dark text-white mb-3 editor-scene-animation-step">
           <div class="card-header">
             <h5>
               Step ${count} (Delay: ${step.delay}ms)
