@@ -40,3 +40,7 @@ input[type=range][orient=vertical]
 .editor-scene-selector {
   cursor: pointer;
 }
+
+.force-parent-lh {
+  line-height: inherit !important;
+}

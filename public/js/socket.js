@@ -35,7 +35,7 @@ const DmxSocket = function(app) {
   }
 
   this.socketRequest = (type, data, callback) => {
-    const uuid = this.generateRequestId()
+    const uuid = this.generateUUID()
 
     this.requests[uuid] = callback
 
@@ -50,7 +50,7 @@ const DmxSocket = function(app) {
     this.requests[packet.uuid](packet.response)
   }
 
-  this.generateRequestId = () => {
+  this.generateUUID = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       var r = Math.random() * 16 | 0,
         v = c == 'x' ? r : (r & 0x3 | 0x8);

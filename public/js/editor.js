@@ -85,6 +85,22 @@ const EditorController = function(app) {
     $(e.target).closest(".editor-scene-animation-step-row").remove()
   })
 
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-edit-label", (e) => {
+    const container = $(e.target).closest("h5")
+
+    if(container.find(".editor-scene-animation-label-editor").length === 0){
+      $(e.currentTarget).html(`<i class="fas fa-save"></i>`)
+      const label = container.find(".editor-scene-animation-label").text()
+      container.find(".editor-scene-animation-label").html(`<input type="text" class="form-control editor-scene-animation-label-editor" value="${label}"></input>`)
+    }else{
+      const newLabel = container.find(".editor-scene-animation-label-editor").val()
+
+      container.find(".editor-scene-animation-label").html(newLabel)
+      container.closest(".editor-scene-animation").attr("editor-scene-animation-label", newLabel)
+    }
+
+  })
+
   /**
    * Compile scene and send to server
    */
@@ -186,7 +202,15 @@ const EditorController = function(app) {
     html += `
           <div class="card bg-secondary text-white editor-scene-animation" editor-scene-animation-label="${val.label}" editor-scene-animation-universe="${val.universe}">
             <div class="card-header">
-              <h5>${val.label}</h5>
+              <h5 class="row">
+                <div class="col-sm-8">
+                  <span class="editor-scene-animation-label">${val.label}</span>
+                </div>
+                <div class="col-sm-4 text-right">
+                  <button class="float-right btn btn-danger editor-scene-animation-remove"><i class="fas fa-trash-alt"></i></button>
+                  <button class="float-right btn btn-info mr-3 editor-scene-animation-edit-label"><i class="fas fa-edit"></i></button>
+                </div>
+              </h5>
             </div>
             <div class="card-body">
               <div class="editor-scene-animation-step-container">
@@ -218,7 +242,11 @@ const EditorController = function(app) {
     html += `
         <div class="card bg-dark text-white mb-3">
           <div class="card-header">
-            <h5>Step ${count} (Delay: ${step.delay}ms)</h5>
+            <h5>
+              Step ${count} (Delay: ${step.delay}ms)
+              <button class="float-right btn btn-md btn-danger btn editor-scene-animation-step-remove"><i class="fas fa-trash-alt"></i></button>
+              <button class="float-right btn btn-info btn mr-3 editor-scene-animation-step-edit"><i class="fas fa-wrench"></i></button>
+            </h5>
           </div>
           <div class="card-body editor-scene-animation-step" editor-scene-animation-delay="${step.delay}">
 
@@ -226,7 +254,7 @@ const EditorController = function(app) {
             <div class="col-md-6">
               Channel
             </div>
-            <div class="col-md-53">
+            <div class="col-md-5">
               Value
             </div>
             <div class="col-md-1"></div>
@@ -257,11 +285,11 @@ const EditorController = function(app) {
             <div class="col-md-6">
               <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
               <input type="text" class="form-control editor-scene-animation-step-channel-value col-sm-12" value="${value}"></input>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-danger btn-block editor-scene-animation-step-row-remove"><span aria-hidden="true">&times;</span></button>
+            <div class="col-md-2">
+              <button class="btn btn-danger btn-block editor-scene-animation-step-row-remove"><i class="fas force-parent-lh fa-trash-alt"></i></button>
             </div>
           </div>`
   }
@@ -290,11 +318,11 @@ const EditorController = function(app) {
             <div class="col-md-4">
               <input type="text" class="form-control editor-scene-static-channel col-sm-12" value="${val.channel}"></input>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <input type="text" class="form-control editor-scene-static-value col-sm-12" value="${val.value}"></input>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-danger btn-block editor-scene-static-row-remove"><span aria-hidden="true">&times;</span></button>
+            <div class="col-md-2">
+              <button class="btn btn-danger btn-block editor-scene-static-row-remove"><i class="fas force-parent-lh fa-trash-alt"></i></button>
             </div>
           </div>`
   }

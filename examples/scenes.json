@@ -32,6 +32,18 @@
     "color": "#33dd33",
     "values": [
       {
+        "type": "static",
+        "channel": "8",
+        "value": "10",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "20",
+        "universe": "office"
+      },
+      {
         "type": "animation",
         "label": "Movement",
         "universe": "office",
@@ -40,8 +52,7 @@
             "delay": "1000",
             "channels": {
               "1": "255",
-              "3": "192",
-              "6": "0"
+              "3": "192"
             }
           },
           {
@@ -90,8 +101,7 @@
             "delay": "1000",
             "channels": {
               "1": "192",
-              "3": "64",
-              "6": "255"
+              "3": "64"
             }
           }
         ]
