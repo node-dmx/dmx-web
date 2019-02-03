@@ -59,6 +59,25 @@ html
 
       div.tab-pane(id="edit")
 
+        // Step Editor Modal
+
+        .modal.fade#editor-scene-step-editor-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-step-editor-modal" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5.modal-title Edit Step
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                form
+                  .form-group
+                    label.col-form-label Delay (ms):
+                    input.form-control#editor-scene-step-editor-modal-delay(type="number")
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button.btn.btn-primary#editor-scene-step-editor-modal-save(type="button" data-dismiss="modal") Save
+
+        // Main editor
         .container
 
           br

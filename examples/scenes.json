@@ -9,6 +9,12 @@
         "channel": "1",
         "value": "255",
         "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "255",
+        "universe": "office"
       }
     ]
   },

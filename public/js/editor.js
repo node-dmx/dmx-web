@@ -121,6 +121,27 @@ const EditorController = function(app) {
     $(e.target).closest(".editor-scene-animation-step").remove()
   })
 
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-step-edit", (e) => {
+    const stepElem = $(e.target).closest(".editor-scene-animation-step-container").find(".editor-scene-animation-step")
+    const delay = stepElem.attr("editor-scene-animation-step-delay")
+    const stepCount = stepElem.attr("editor-scene-animation-step-count")
+
+    $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count", stepCount)
+    $("#editor-scene-step-editor-modal-delay").val(delay)
+  })
+
+  $("#editor-scene-step-editor-modal-save").on("click", (e) => {
+    const delay = $("#editor-scene-step-editor-modal-delay").val()
+    const count = $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count")
+
+    $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`).attr("editor-scene-animation-step-delay", delay)
+
+    $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`)
+      .closest(".editor-scene-animation-step-container")
+      .find(".editor-scene-animation-step-title")
+      .text(`Step ${count} (Delay: ${delay}ms)`)
+  })
+
   /**
    * Compile scene and send to server
    */
@@ -154,7 +175,7 @@ const EditorController = function(app) {
       $(e).find(".editor-scene-animation-step-container").find(".editor-scene-animation-step").each((si, se) => {
 
         const step = {
-          delay: $(se).attr("editor-scene-animation-delay"),
+          delay: $(se).attr("editor-scene-animation-step-delay"),
           channels: {}
         }
 
@@ -260,15 +281,15 @@ const EditorController = function(app) {
     let html = ""
 
     html += `
-        <div class="card bg-dark text-white mb-3 editor-scene-animation-step">
+        <div class="card bg-dark text-white mb-3 editor-scene-animation-step-container">
           <div class="card-header">
             <h5>
-              Step ${count} (Delay: ${step.delay}ms)
+              <span class="editor-scene-animation-step-title">Step ${count} (Delay: ${step.delay}ms)</span>
               <button class="float-right btn btn-md btn-danger btn editor-scene-animation-step-remove"><i class="fas fa-trash-alt"></i></button>
-              <button class="float-right btn btn-info btn mr-3 editor-scene-animation-step-edit"><i class="fas fa-wrench"></i></button>
+              <button class="float-right btn btn-info btn mr-3 editor-scene-animation-step-edit" data-toggle="modal" data-target="#editor-scene-step-editor-modal"><i class="fas fa-wrench"></i></button>
             </h5>
           </div>
-          <div class="card-body editor-scene-animation-step" editor-scene-animation-delay="${step.delay}">
+          <div class="card-body editor-scene-animation-step" editor-scene-animation-step-count=${count} editor-scene-animation-step-delay="${step.delay}">
 
           <div class="mb-3 row">
             <div class="col-md-6">
