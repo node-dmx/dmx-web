@@ -5,4 +5,6 @@ $("#main-navbar .nav-link").click(function(e) {
   $($(this).attr("href")).show()
 })
 
+if(!window.location.hash) window.location.hash = "control"
+
 $(".nav-link[href='" + window.location.hash + "']").click()
