@@ -7,9 +7,6 @@ const EditorController = function(app) {
    */
   $(".editor-scene-selector").on("click", (e) => {
     app.socket.getScene($(e.target).attr("scene_id"), (scene) => {
-      $("#editor-scene-help").hide()
-      $("#editor-scene-editor").show()
-
       console.log(scene)
 
       this.currentScene = scene
@@ -94,11 +91,11 @@ const EditorController = function(app) {
   $("#editor-scene-editor").on("click", ".editor-scene-animation-edit-label", (e) => {
     const container = $(e.target).closest("h5")
 
-    if(container.find(".editor-scene-animation-label-editor").length === 0){
+    if (container.find(".editor-scene-animation-label-editor").length === 0) {
       $(e.currentTarget).html(`<i class="fas fa-save"></i>`)
       const label = container.find(".editor-scene-animation-label").text()
       container.find(".editor-scene-animation-label").html(`<input type="text" class="form-control editor-scene-animation-label-editor" value="${label}"></input>`)
-    }else{
+    } else {
       const newLabel = container.find(".editor-scene-animation-label-editor").val()
 
       container.find(".editor-scene-animation-label").html(newLabel)
@@ -121,6 +118,9 @@ const EditorController = function(app) {
     $(e.target).closest(".editor-scene-animation-step").remove()
   })
 
+  /**
+   * On edit animation step
+   */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-edit", (e) => {
     const stepElem = $(e.target).closest(".editor-scene-animation-step-container").find(".editor-scene-animation-step")
     const delay = stepElem.attr("editor-scene-animation-step-delay")
@@ -130,6 +130,9 @@ const EditorController = function(app) {
     $("#editor-scene-step-editor-modal-delay").val(delay)
   })
 
+  /**
+   * On save step
+   */
   $("#editor-scene-step-editor-modal-save").on("click", (e) => {
     const delay = $("#editor-scene-step-editor-modal-delay").val()
     const count = $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count")
@@ -143,6 +146,37 @@ const EditorController = function(app) {
   })
 
   /**
+   * On create new scene
+   */
+  $("#editor-scene-modal-save").on("click", (e) => {
+    if ($("#editor-scene-creator-modal-name").val() === "") return
+
+    const id = app.socket.generateUUID()
+
+    scene = {
+      id: id,
+      label: $("#editor-scene-creator-modal-name").val(),
+      type: "full",
+      values: []
+    }
+
+    this.currentScene = scene
+
+    this.drawSceneEditor(scene)
+
+    $("#editor-scene-creator-modal-name").val("")
+  })
+
+  /**
+   * On delete scene
+   */
+  $("#editor-scene-delete").on("click", (e) => {
+    app.socket.deleteScene(this.currentScene.id, () => {
+      window.location.reload(true)
+    })
+  })
+
+  /**
    * Compile scene and send to server
    */
   this.saveScene = () => {
@@ -153,9 +187,9 @@ const EditorController = function(app) {
     scene.values.push(...this.compileStaticScenes())
     scene.values.push(...this.compileAnimationScenes())
 
-    console.log(scene)
-
-    app.socket.saveScene(scene)
+    app.socket.saveScene(scene, () => {
+      window.location.reload(true)
+    })
   }
 
   /**
@@ -219,6 +253,9 @@ const EditorController = function(app) {
 
     $("#editor-scene-static").html(this.generateStaticEditorHtml(scene))
     $("#editor-scene-animations").html(this.generateAnimationEditorHtml(scene))
+
+    $("#editor-scene-help").hide()
+    $("#editor-scene-editor").show()
   }
 
   this.generateAnimationEditorHtml = (scene) => {

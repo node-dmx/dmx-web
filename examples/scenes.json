@@ -24,9 +24,9 @@
     "type": "full",
     "values": [
       {
-        "channel": 1,
-        "value": 0,
         "type": "static",
+        "channel": "1",
+        "value": "0",
         "universe": "office"
       }
     ]

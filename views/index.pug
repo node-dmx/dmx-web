@@ -77,6 +77,24 @@ html
                 button.btn.btn-secondary(type="button" data-dismiss="modal") Close
                 button.btn.btn-primary#editor-scene-step-editor-modal-save(type="button" data-dismiss="modal") Save
 
+        // New Animation Modal
+
+        .modal.fade#editor-scene-creator-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-creator-modal" aria-hidden="true")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                h5.modal-title New Scene
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                form
+                  .form-group
+                    label.col-form-label Name:
+                    input.form-control#editor-scene-creator-modal-name(type="text", placeholder="Scene Name")
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                button.btn.btn-primary#editor-scene-modal-save(type="button" data-dismiss="modal") Add
+
         // Main editor
         .container
 
@@ -84,12 +102,12 @@ html
 
           .row-fluid
             .d-flex.flex-row
-              div.w-100.mr-2
-                button.btn-dark.btn.btn-block New Scene
-              div.w-100.mr-2
-                button.btn-dark.btn.btn-block Add Fixture
               div.w-100
-                button.btn-dark.btn.btn-block New Fixture Type
+                button.btn-dark.btn.btn-block(data-toggle="modal" data-target="#editor-scene-creator-modal") New Scene
+              //- div.w-100.mr-2
+              //-   button.btn-dark.btn.btn-block Add Fixture
+              //- div.w-100
+              //-   button.btn-dark.btn.btn-block New Fixture Type
               
 
           br
@@ -98,18 +116,21 @@ html
             .col-md-3.col-sm-4
               .list-group
                 - for(let i = 0 ; i < scenes.length; i++)
-                  - if(scenes[i].id == "default-blackout") continue
+                  - if(scenes[i].hidden || scenes[i].legacy) continue;
                   button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
 
             .col-md-9.col-sm-8
 
               .card.bg-dark.text-white#editor-scene-help
                 .card-body
-                  h5.text-secondary Select scene from the right to edit
+                  h5.text-secondary Select scene from the left to edit
 
               .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
                 .card-header
-                  h1#editor-scene-title Edit Scene
+                  h1
+                    span#editor-scene-title Scene Title
+                    button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
+                      i.fas.force-parent-lh.fa-trash-alt
                 .card-body
                   
                   h4 Static

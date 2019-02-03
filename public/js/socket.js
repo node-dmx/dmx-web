@@ -30,8 +30,14 @@ const DmxSocket = function(app) {
     }, callback)
   }
 
-  this.saveScene = (scene) => {
-    this.socket.emit("save-scene", scene)
+  this.saveScene = (scene, callback) => {
+    this.socketRequest("save-scene", scene, callback)
+  }
+
+  this.deleteScene = (sceneId, callback) => {
+    this.socketRequest("delete-scene", {
+      sceneId
+    }, callback)
   }
 
   this.socketRequest = (type, data, callback) => {
