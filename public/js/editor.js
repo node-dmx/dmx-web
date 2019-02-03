@@ -44,7 +44,7 @@ const EditorController = function(app) {
    */
   $("#editor-scene-add-animation").on("click", (e) => {
     $("#editor-scene-animations").append(this.generateAnimationEditorRowHtml({
-      universe: "",
+      universe: "Universe Here",
       label: "New Animation",
       steps: [{
         channels: {
@@ -86,20 +86,30 @@ const EditorController = function(app) {
   })
 
   /**
-   * On edit animation label
+   * On edit animation
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-edit-label", (e) => {
     const container = $(e.target).closest("h5")
 
     if (container.find(".editor-scene-animation-label-editor").length === 0) {
+
       $(e.currentTarget).html(`<i class="fas fa-save"></i>`)
-      const label = container.find(".editor-scene-animation-label").text()
-      container.find(".editor-scene-animation-label").html(`<input type="text" class="form-control editor-scene-animation-label-editor" value="${label}"></input>`)
+
+      const label = container.closest(".editor-scene-animation").attr("editor-scene-animation-label")
+      const universe = container.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
+
+      container.find(".editor-scene-animation-label").html(`Label: <input type="text" class="form-control editor-scene-animation-label-editor" value="${label}"></input>`)
+      container.find(".editor-scene-animation-universe").html(`Universe: <input type="text" class="form-control editor-scene-animation-universe-editor" value="${universe}"></input>`)
     } else {
       const newLabel = container.find(".editor-scene-animation-label-editor").val()
+      const newUniverse = container.find(".editor-scene-animation-universe-editor").val()
 
-      container.find(".editor-scene-animation-label").html(newLabel)
-      container.closest(".editor-scene-animation").attr("editor-scene-animation-label", newLabel)
+      container.find(".editor-scene-animation-label").text(newLabel)
+      container.find(".editor-scene-animation-universe").html(`<span class=" text-secondary badge badge-dark">${newUniverse}</span>`)
+
+      container.closest(".editor-scene-animation")
+        .attr("editor-scene-animation-label", newLabel)
+        .attr("editor-scene-animation-universe", newUniverse)
     }
 
   })
@@ -283,6 +293,9 @@ const EditorController = function(app) {
               <h5 class="row">
                 <div class="col-sm-8">
                   <span class="editor-scene-animation-label">${val.label}</span>
+                  <span class="editor-scene-animation-universe">
+                    <span class=" text-secondary badge badge-dark">${val.universe}</span>
+                  </span>
                 </div>
                 <div class="col-sm-4 text-right">
                   <button class="float-right btn btn-danger editor-scene-animation-remove"><i class="fas fa-trash-alt"></i></button>

@@ -37,9 +37,15 @@
     "type": "full",
     "values": [
       {
+        "type": "static",
+        "channel": "0",
+        "value": "255",
+        "universe": "office"
+      },
+      {
         "type": "animation",
-        "label": "New Animation",
-        "universe": "",
+        "label": "Animation",
+        "universe": "office",
         "steps": [
           {
             "delay": "1000",
