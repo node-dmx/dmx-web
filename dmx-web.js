@@ -62,7 +62,8 @@ const DMXWeb = () => {
 
     app.get('/', (req, res) => {
       res.render('index', {
-        scenes: scenes.getObject()
+        scenes: scenes.getObject(),
+        config: config
       })
     });
 

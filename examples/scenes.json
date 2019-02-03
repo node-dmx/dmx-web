@@ -32,82 +32,25 @@
     ]
   },
   {
-    "id": "22f8d84c-342e-463e-8aae-4535264cd4a9",
+    "id": "8f0b4e4d-dfe1-410d-99c6-4b978d96fc52",
     "label": "Animation Test",
     "type": "full",
-    "color": "#33dd33",
     "values": [
       {
-        "type": "static",
-        "channel": "8",
-        "value": "10",
-        "universe": "office"
-      },
-      {
-        "type": "static",
-        "channel": "5",
-        "value": "20",
-        "universe": "office"
-      },
-      {
         "type": "animation",
-        "label": "Movement",
-        "universe": "office",
+        "label": "New Animation",
+        "universe": "",
         "steps": [
           {
             "delay": "1000",
             "channels": {
-              "1": "255",
-              "3": "192"
+              "1": "0"
             }
           },
           {
             "delay": "1000",
             "channels": {
-              "1": "192",
-              "3": "64"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "128",
-              "3": "192"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "64",
-              "3": "64"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "0",
-              "3": "192"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "64",
-              "3": "64"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "128",
-              "3": "192"
-            }
-          },
-          {
-            "delay": "1000",
-            "channels": {
-              "1": "192",
-              "3": "64"
+              "1": "255"
             }
           }
         ]

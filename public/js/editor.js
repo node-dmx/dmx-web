@@ -115,7 +115,7 @@ const EditorController = function(app) {
    * On remove animation step
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-remove", (e) => {
-    $(e.target).closest(".editor-scene-animation-step").remove()
+    $(e.target).closest(".editor-scene-animation-step-container").remove()
   })
 
   /**
