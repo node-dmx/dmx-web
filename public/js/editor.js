@@ -66,7 +66,7 @@ const EditorController = function(app) {
    * On add animation step
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-add-step", (e) => {
-    const container = $(e.target).closest(".editor-scene-animation").find(".editor-scene-animation-step-container")
+    const container = $(e.target).closest(".editor-scene-animation").find(".editor-scene-animation-steps-container")
     const count = container.children().length + 1
 
     container.append(
@@ -132,7 +132,7 @@ const EditorController = function(app) {
    * On edit animation step
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-edit", (e) => {
-    const stepElem = $(e.target).closest(".editor-scene-animation-step-container").find(".editor-scene-animation-step")
+    const stepElem = $(e.target).closest(".editor-scene-animation-steps-container").find(".editor-scene-animation-step")
     const delay = stepElem.attr("editor-scene-animation-step-delay")
     const stepCount = stepElem.attr("editor-scene-animation-step-count")
 
@@ -150,7 +150,7 @@ const EditorController = function(app) {
     $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`).attr("editor-scene-animation-step-delay", delay)
 
     $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`)
-      .closest(".editor-scene-animation-step-container")
+      .closest(".editor-scene-animation-steps-container")
       .find(".editor-scene-animation-step-title")
       .text(`Step ${count} (Delay: ${delay}ms)`)
   })
@@ -304,7 +304,7 @@ const EditorController = function(app) {
               </h5>
             </div>
             <div class="card-body">
-              <div class="editor-scene-animation-step-container">
+              <div class="editor-scene-animation-steps-container">
         `
 
     let count = 0;
