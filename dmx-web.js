@@ -128,13 +128,13 @@ const DMXWeb = () => {
         // preserve old states
         const old = dmx.universeToObject(req.params.universe);
 
-        const animation = new A();
+        const animation = new DMX.Animation();
 
         for (const step in req.body) {
           animation.add(
             req.body[step].to,
             req.body[step].duration || 0,
-            req.body[step].options || {}
+            req.body[step].options || {} 
           );
         }
         animation.add(old, 0);
