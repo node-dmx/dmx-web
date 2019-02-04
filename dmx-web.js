@@ -67,6 +67,89 @@ const DMXWeb = () => {
       })
     });
 
+    /**
+     * Get config
+     */
+    app.get('/config', (req, res) => {
+      const response = {
+        'devices': dmx.devices,
+        'universes': {}
+      };
+
+      Object.keys(config.universes).forEach(key => {
+        response.universes[key] = config.universes[key].devices;
+      });
+
+      res.json(response);
+    });
+
+    /**
+     * get state of universe
+     */
+    app.get('/state/:universe', (req, res) => {
+      if (!(req.params.universe in dmx.universes)) {
+        res.status(404).json({
+          'error': 'universe not found'
+        });
+        return;
+      }
+
+      res.json({
+        'state': dmx.universeToObject(req.params.universe)
+      });
+    });
+
+    /**
+     * Set state of universe. 
+     * @deprecated Setting the state of a universe this way is deprecated! Use scenes instead!
+     */
+    app.post('/state/:universe', (req, res) => {
+      if (!(req.params.universe in dmx.universes)) {
+        res.status(404).json({
+          'error': 'universe not found'
+        });
+        return;
+      }
+
+      dmx.update(req.params.universe, req.body);
+      res.json({
+        'state': dmx.universeToObject(req.params.universe)
+      });
+    });
+
+    /**
+     * Run animation in universe
+     * @deprecated Setting the state of a universe this way is deprecated! Use scenes instead!
+     */
+    app.post('/animation/:universe', (req, res) => {
+      try {
+        const universe = dmx.universes[req.params.universe];
+
+        // preserve old states
+        const old = dmx.universeToObject(req.params.universe);
+
+        const animation = new A();
+
+        for (const step in req.body) {
+          animation.add(
+            req.body[step].to,
+            req.body[step].duration || 0,
+            req.body[step].options || {}
+          );
+        }
+        animation.add(old, 0);
+        animation.run(universe);
+        res.json({
+          'success': true
+        });
+      } catch (e) {
+        console.log(e);
+        res.json({
+          'error': String(e)
+        });
+      }
+    });
+
     return app;
   }
 
@@ -131,9 +214,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user save/update scene
-           */
+            /**
+             * On user save/update scene
+             */
           case "save-scene":
 
             if (!config.allowEditing) {
@@ -155,9 +238,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user delete scene
-           */
+            /**
+             * On user delete scene
+             */
           case "delete-scene":
 
             if (!config.allowEditing) {
