@@ -1,25 +1,5 @@
-const EditorController = function(app) {
+const EditorRenderer = function(app) {
 
-  this.currentScene = null
-
-  /**
-   * On select scene
-   */
-  $(".editor-scene-selector").on("click", (e) => {
-    app.socket.getScene($(e.target).attr("scene_id"), (scene) => {
-      console.log(scene)
-
-      this.currentScene = scene
-      this.drawSceneEditor(scene)
-    })
-  })
-
-  /**
-   * On save scene
-   */
-  $("#editor-scene-save").on("click", (e) => {
-    this.saveScene()
-  })
 
   /**
    * On add static row
@@ -132,7 +112,7 @@ const EditorController = function(app) {
    * On edit animation step
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-edit", (e) => {
-    const stepElem = $(e.target).closest(".editor-scene-animation-steps-container").find(".editor-scene-animation-step")
+    const stepElem = $(e.target).closest(".editor-scene-animation-step-container").find(".editor-scene-animation-step")
     const delay = stepElem.attr("editor-scene-animation-step-delay")
     const stepCount = stepElem.attr("editor-scene-animation-step-count")
 
@@ -150,7 +130,7 @@ const EditorController = function(app) {
     $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`).attr("editor-scene-animation-step-delay", delay)
 
     $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`)
-      .closest(".editor-scene-animation-steps-container")
+      .closest(".editor-scene-animation-step-container")
       .find(".editor-scene-animation-step-title")
       .text(`Step ${count} (Delay: ${delay}ms)`)
   })
@@ -170,93 +150,10 @@ const EditorController = function(app) {
       values: []
     }
 
-    this.currentScene = scene
-
-    this.drawSceneEditor(scene)
-
     $("#editor-scene-creator-modal-name").val("")
+    
+    this.editor.setScene(scene)
   })
-
-  /**
-   * On delete scene
-   */
-  $("#editor-scene-delete").on("click", (e) => {
-    app.socket.deleteScene(this.currentScene.id, () => {
-      window.location.reload(true)
-    })
-  })
-
-  /**
-   * Compile scene and send to server
-   */
-  this.saveScene = () => {
-    const scene = this.currentScene
-
-    scene.values = []
-
-    scene.values.push(...this.compileStaticScenes())
-    scene.values.push(...this.compileAnimationScenes())
-
-    app.socket.saveScene(scene, (response) => {
-      window.location.reload(true)
-    })
-  }
-
-  /**
-   * Read HTML and turn into scene values
-   */
-  this.compileAnimationScenes = () => {
-    const values = []
-
-    $("#editor-scene-animations").find(".editor-scene-animation").each((i, e) => {
-      const animation = {
-        type: "animation",
-        label: $(e).attr("editor-scene-animation-label"),
-        universe: $(e).attr("editor-scene-animation-universe"),
-        steps: []
-      }
-
-      $(e).find(".editor-scene-animation-step-container").find(".editor-scene-animation-step").each((si, se) => {
-
-        const step = {
-          delay: $(se).attr("editor-scene-animation-step-delay"),
-          channels: {}
-        }
-
-        $(se).find(".editor-scene-animation-step-row").each((svi, sv) => {
-          step.channels[$(sv).find(".editor-scene-animation-step-channel").val()] = $(sv).find(".editor-scene-animation-step-channel-value").val()
-        })
-
-        animation.steps.push(step)
-      })
-
-      values.push(animation)
-    })
-
-    return values
-  }
-
-  /**
-   * Read HTML and turn into scene values
-   */
-  this.compileStaticScenes = () => {
-    const values = []
-
-    $("div.editor-scene-static-row").each((i, e) => {
-      const channel = $(e).find(".editor-scene-static-channel").val()
-      const value = $(e).find(".editor-scene-static-value").val()
-      const universe = $(e).find(".editor-scene-static-universe").val()
-
-      values.push({
-        type: "static",
-        channel,
-        value,
-        universe
-      })
-    })
-
-    return values
-  }
 
   this.drawSceneEditor = (scene) => {
     $("#editor-scene-title").text(scene.label)

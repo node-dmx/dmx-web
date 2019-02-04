@@ -38,8 +38,14 @@
     "values": [
       {
         "type": "static",
-        "channel": "0",
+        "channel": "8",
         "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "20",
         "universe": "office"
       },
       {
@@ -48,28 +54,28 @@
         "universe": "office",
         "steps": [
           {
-            "delay": "1000",
+            "delay": "10000",
             "channels": {
               "1": "255",
               "3": "255"
             }
           },
           {
-            "delay": "1000",
+            "delay": "10000",
             "channels": {
               "1": "128",
               "3": "0"
             }
           },
           {
-            "delay": "1000",
+            "delay": "10000",
             "channels": {
               "1": "0",
               "3": "255"
             }
           },
           {
-            "delay": "1000",
+            "delay": "10000",
             "channels": {
               "1": "128",
               "3": "0"
