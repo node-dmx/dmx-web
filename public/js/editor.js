@@ -197,7 +197,7 @@ const EditorController = function(app) {
     scene.values.push(...this.compileStaticScenes())
     scene.values.push(...this.compileAnimationScenes())
 
-    app.socket.saveScene(scene, () => {
+    app.socket.saveScene(scene, (response) => {
       window.location.reload(true)
     })
   }

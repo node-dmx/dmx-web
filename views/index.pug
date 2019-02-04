@@ -32,8 +32,9 @@ html
           li(class="nav-item active")
             a(class="nav-link" href="#control") Control
           
-          li(class="nav-item")
-            a(class="nav-link" href="#edit") Editor
+          - if(!!config.allowEditing)
+            li(class="nav-item")
+              a(class="nav-link" href="#edit") Editor
           
           li(class="nav-item")
             a(class="nav-link" href="#sliders") Simple Sliders
@@ -54,112 +55,113 @@ html
                 .dmx-scene-trigger-container
                   button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger.dmx-scene-trigger-control(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label
 
-      div.tab-pane(id="edit")
+      - if(!!config.allowEditing)
+        div.tab-pane(id="edit")
 
-        // Step Editor Modal
+          // Step Editor Modal
 
-        .modal.fade#editor-scene-step-editor-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-step-editor-modal" aria-hidden="true")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                h5.modal-title Edit Step
-                button.close(type="button" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-              .modal-body
-                form
-                  .form-group
-                    label.col-form-label Delay (ms):
-                    input.form-control#editor-scene-step-editor-modal-delay(type="number")
-              .modal-footer
-                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
-                button.btn.btn-primary#editor-scene-step-editor-modal-save(type="button" data-dismiss="modal") Save
+          .modal.fade#editor-scene-step-editor-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-step-editor-modal" aria-hidden="true")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  h5.modal-title Edit Step
+                  button.close(type="button" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                .modal-body
+                  form
+                    .form-group
+                      label.col-form-label Delay (ms):
+                      input.form-control#editor-scene-step-editor-modal-delay(type="number")
+                .modal-footer
+                  button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                  button.btn.btn-primary#editor-scene-step-editor-modal-save(type="button" data-dismiss="modal") Save
 
-        // New Animation Modal
+          // New Animation Modal
 
-        .modal.fade#editor-scene-creator-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-creator-modal" aria-hidden="true")
-          .modal-dialog(role="document")
-            .modal-content
-              .modal-header
-                h5.modal-title New Scene
-                button.close(type="button" data-dismiss="modal" aria-label="Close")
-                  span(aria-hidden="true") &times;
-              .modal-body
-                form
-                  .form-group
-                    label.col-form-label Name:
-                    input.form-control#editor-scene-creator-modal-name(type="text", placeholder="Scene Name")
-              .modal-footer
-                button.btn.btn-secondary(type="button" data-dismiss="modal") Close
-                button.btn.btn-primary#editor-scene-modal-save(type="button" data-dismiss="modal") Add
+          .modal.fade#editor-scene-creator-modal(tabindex="-1" role="dialog" aria-labelledby="editor-scene-creator-modal" aria-hidden="true")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  h5.modal-title New Scene
+                  button.close(type="button" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                .modal-body
+                  form
+                    .form-group
+                      label.col-form-label Name:
+                      input.form-control#editor-scene-creator-modal-name(type="text", placeholder="Scene Name")
+                .modal-footer
+                  button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                  button.btn.btn-primary#editor-scene-modal-save(type="button" data-dismiss="modal") Add
 
-        // Main editor
-        .container
+          // Main editor
+          .container
 
-          br
+            br
 
-          .row-fluid
-            .d-flex.flex-row
-              div.w-100
-                button.btn-dark.btn.btn-block(data-toggle="modal" data-target="#editor-scene-creator-modal") New Scene
-              //- div.w-100.mr-2
-              //-   button.btn-dark.btn.btn-block Add Fixture
-              //- div.w-100
-              //-   button.btn-dark.btn.btn-block New Fixture Type
-              
+            .row-fluid
+              .d-flex.flex-row
+                div.w-100
+                  button.btn-dark.btn.btn-block(data-toggle="modal" data-target="#editor-scene-creator-modal") New Scene
+                //- div.w-100.mr-2
+                //-   button.btn-dark.btn.btn-block Add Fixture
+                //- div.w-100
+                //-   button.btn-dark.btn.btn-block New Fixture Type
+                
 
-          br
+            br
 
-          .row
-            .col-md-3.col-sm-4
-              .list-group
-                - for(let i = 0 ; i < scenes.length; i++)
-                  - if(scenes[i].hidden || scenes[i].legacy) continue;
-                  button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
+            .row
+              .col-md-3.col-sm-4
+                .list-group
+                  - for(let i = 0 ; i < scenes.length; i++)
+                    - if(scenes[i].hidden || scenes[i].legacy) continue;
+                    button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
 
-            .col-md-9.col-sm-8
+              .col-md-9.col-sm-8
 
-              .card.bg-dark.text-white#editor-scene-help
-                .card-body
-                  h5.text-secondary Select scene from the left to edit
+                .card.bg-dark.text-white#editor-scene-help
+                  .card-body
+                    h5.text-secondary Select scene from the left to edit
 
-              .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
-                .card-header
-                  h1
-                    span#editor-scene-title Scene Title
-                    button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
-                      i.fas.force-parent-lh.fa-trash-alt
-                .card-body
-                  
-                  h4 Static
-                  br
-                  div.row
-                    div.col-sm-4
-                      p Universe
-                    div.col-sm-4
-                      p Channel
-                    div.col-sm-3
-                      p Value
-                    div.col-sm-1
-                  div#editor-scene-static
-                    p.text-secondary.text-center No Static Values 
+                .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
+                  .card-header
+                    h1
+                      span#editor-scene-title Scene Title
+                      button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
+                        i.fas.force-parent-lh.fa-trash-alt
+                  .card-body
+                    
+                    h4 Static
+                    br
+                    div.row
+                      div.col-sm-4
+                        p Universe
+                      div.col-sm-4
+                        p Channel
+                      div.col-sm-3
+                        p Value
+                      div.col-sm-1
+                    div#editor-scene-static
+                      p.text-secondary.text-center No Static Values 
 
-                  br
+                    br
 
-                  button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
+                    button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
 
-                  hr
+                    hr
 
-                  h4 Animations
-                  br
-                  div#editor-scene-animations
-                    p.text-secondary.text-center No Animations
+                    h4 Animations
+                    br
+                    div#editor-scene-animations
+                      p.text-secondary.text-center No Animations
 
-                  br
+                    br
 
-                  button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
+                    button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
 
-                .card-footer
-                  button.btn.btn-primary#editor-scene-save Save
+                  .card-footer
+                    button.btn.btn-primary#editor-scene-save Save
 
 
       div(class="tab-pane" id="sliders")

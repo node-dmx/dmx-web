@@ -119,34 +119,65 @@ const DMXWeb = () => {
        * On data request command
        */
       socket.on('data-request', (packet) => {
-        switch(packet.type){
+        switch (packet.type) {
 
+          /**
+           * On user get scene data
+           */
           case "get-scene":
             socket.emit("data-response", {
               uuid: packet.uuid,
               response: scenes.getSceneById(packet.data.sceneId) || {}
             })
-          break;
+            break;
 
+          /**
+           * On user save/update scene
+           */
           case "save-scene":
+
+            if (!config.allowEditing) {
+              return socket.emit("data-response", {
+                uuid: packet.uuid,
+                response: {
+                  success: false
+                }
+              })
+            }
 
             scenes.saveScene(packet.data)
 
             socket.emit("data-response", {
               uuid: packet.uuid,
-              response: {success: true}
+              response: {
+                success: true
+              }
             })
-          break;
+            break;
 
+          /**
+           * On user delete scene
+           */
           case "delete-scene":
+
+            if (!config.allowEditing) {
+              return socket.emit("data-response", {
+                uuid: packet.uuid,
+                response: {
+                  success: false
+                }
+              })
+            }
 
             scenes.deleteScene(packet.data.sceneId)
 
             socket.emit("data-response", {
               uuid: packet.uuid,
-              response: {success: true}
+              response: {
+                success: true
+              }
             })
-          break;
+            break;
 
           default:
             console.log("Warning! Invalid data-request type received!")
