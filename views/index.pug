@@ -205,14 +205,36 @@ html
                           span.mr-2.ml-2 - 
                           span=device.label
                         div
-                          each channel, k in device.channels
-                            .col-sm-11.offset-sm-1
-                              span.badge.badge-secondary #{Number(device.address) + k}
-                              span.mr-2.ml-2 -
-                              span=channel
-
-                        
-
+                          .col-sm-11.offset-md-1
+                            table.table-sm.table-borderless.text-white
+                              each channel, k in device.channels
+                                tr
+                                  td
+                                    span.badge.badge-secondary #{Number(device.address) + k}
+                                  td.w-100.text-left
+                                    if ["pan", "pan-fine"].indexOf(channel) !== -1
+                                      i.fas.fa-arrows-alt-h.mr-2
+                                    if ["tilt", "tilt-fine"].indexOf(channel) !== -1
+                                      i.fas.fa-arrows-alt-v.mr-2
+                                    if ["move-speed"].indexOf(channel) !== -1
+                                      i.fas.fa-tachometer-alt.mr-2
+                                    if ["static-color"].indexOf(channel) !== -1
+                                      i.fas.fa-palette.mr-2
+                                    if ["program", "effect"].indexOf(channel) !== -1
+                                      i.fas.fa-certificate.mr-2
+                                    if ["dimmer", "strobe", "dimmer-strobe-combo"].indexOf(channel) !== -1
+                                      i.fas.fa-lightbulb.mr-2
+                                    if ["gobo-selector"].indexOf(channel) !== -1
+                                      i.fas.fa-cookie.mr-2
+                                    if channel == "red" || channel.match(/^red\d+$/g)
+                                      i.fas.fa-circle.text-danger.mr-2
+                                    if channel == "green" || channel.match(/^green\d+$/g)
+                                      i.fas.fa-circle.text-success.mr-2
+                                    if channel == "blue" || channel.match(/^blue\d+$/g)
+                                      i.fas.fa-circle.text-primary.mr-2
+                                    if channel == "white" || channel.match(/^white\d+$/g)
+                                      i.fas.fa-circle.mr-2
+                                    =channel
 
       div(class="tab-pane" id="sliders")
         br
