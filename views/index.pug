@@ -170,7 +170,7 @@ html
                     each device,index in devices
                       button.list-group-item.list-group-item-action.bg-dark.text-white
                         div
-                          span.badge.badge-primary #{device.address}-#{device.address + device.channels.length}
+                          span.badge.badge-primary #{device.address}-#{device.address + (device.channels.length - 1)}
                           span.mr-2.ml-2 -
                           span=device.label
                         div
