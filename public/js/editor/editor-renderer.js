@@ -167,6 +167,26 @@ const EditorRenderer = function(editor, app) {
     editor.setScene(scene)
   })
 
+  $("#editor-device-modal-save").on("click", (e) => {
+    const id = app.socket.generateUUID()
+    const label = $("#editor-add-device-modal-name").val()
+    const address = Number($("#editor-add-device-modal-address").val())
+    const type = $("#editor-add-device-modal-type").find("option:selected").text()
+
+    $("#editor-add-device-modal-name").val("")
+    $("#editor-add-device-modal-address").val(1)
+    $("#editor-add-device-modal-type").find("option").removeAttr("selected")
+
+    app.socket.saveDevice({
+      id,
+      label,
+      address,
+      type
+    }, (result) => {
+      window.location.reload(true)
+    })
+  })
+
   this.drawSceneEditor = (scene) => {
     $("#editor-scene-title").text(scene.label)
 

@@ -1,14 +1,145 @@
 [
-	{
-		"id": "df234as5-23fa-234f-8wer-23434ddsaw2e",
-		"label": "Generic Dimmer",
-		"type": "generic",
-		"address": 14
-	},
-	{
-		"id": "e244e345-3246-8cd0-8975-bd234a72712e",
-		"label": "MiniLED Moving Head",
-		"channels": ["pan", "pan-fine", "tilt", "tilt-fine", "move-speed", "dimmer-strobe-combo", "red", "green", "blue", "static-color", "program", "gobo-selector"],
-		"address": 1
-	}
+  {
+    "id": "e244e345-3246-8cd0-8975-bd234a72712e",
+    "label": "MiniLED Moving Head",
+    "channels": [
+      "pan",
+      "pan-fine",
+      "tilt",
+      "tilt-fine",
+      "move-speed",
+      "dimmer-strobe-combo",
+      "red",
+      "green",
+      "blue",
+      "static-color",
+      "program",
+      "gobo-selector"
+    ],
+    "address": 1
+  },
+  {
+    "id": "df234as5-23fa-234f-8wer-23434ddsaw2e",
+    "label": "Generic Dimmer",
+    "type": "generic",
+    "address": 14,
+    "channels": [
+      "dimmer"
+    ]
+  },
+  {
+    "id": "698c318f-73e1-4c54-92e6-9bdcae573eb0",
+    "label": "Ayyy",
+    "address": 32,
+    "type": "eurolite-led-bar",
+    "channels": [
+      "ctrl",
+      "dimmer",
+      "strobe",
+      "red0",
+      "green0",
+      "blue0",
+      "red1",
+      "green1",
+      "blue1",
+      "red2",
+      "green2",
+      "blue2"
+    ],
+    "ranges": {
+      "ctrl": {
+        "type": "option",
+        "options": [
+          {
+            "value": 0,
+            "label": "Black Out"
+          },
+          {
+            "value": 1,
+            "label": "Dimmer 1"
+          },
+          {
+            "value": 16,
+            "label": "Dimmer 2"
+          },
+          {
+            "value": 32,
+            "label": "Red"
+          },
+          {
+            "value": 48,
+            "label": "Green"
+          },
+          {
+            "value": 64,
+            "label": "Blue"
+          },
+          {
+            "value": 80,
+            "label": "Purple"
+          },
+          {
+            "value": 96,
+            "label": "Yellow"
+          },
+          {
+            "value": 112,
+            "label": "Cyan"
+          },
+          {
+            "value": 128,
+            "label": "White"
+          },
+          {
+            "value": 144,
+            "label": "Color change"
+          },
+          {
+            "value": 160,
+            "label": "Color flow"
+          },
+          {
+            "value": 176,
+            "label": "Color dream"
+          },
+          {
+            "value": 192,
+            "label": "Multi flow"
+          },
+          {
+            "value": 208,
+            "label": "Dream flow"
+          },
+          {
+            "value": 224,
+            "label": "Two color flow"
+          },
+          {
+            "value": 240,
+            "label": "Sound activity"
+          }
+        ]
+      },
+      "dimmer": {
+        "type": "slider",
+        "min": 0,
+        "max": 255
+      }
+    }
+  },
+  {
+    "id": "b8c9e44a-5aa4-47e2-8365-6b617d69385f",
+    "label": "Ayy Baddabing",
+    "address": 345,
+    "type": "briteq-bt-theatre-60FC",
+    "channels": [
+      "dimmer",
+      "strobe",
+      "effect",
+      "red",
+      "green",
+      "blue",
+      "white"
+    ]
+  }
 ]

@@ -65,7 +65,8 @@ const DMXWeb = () => {
       res.render('index', {
         scenes: scenes.getObject(),
         config: config,
-        devices: devices.getObject()
+        devices: devices.getObject(),
+        deviceTypes: dmx.devices
       })
     });
 
@@ -218,9 +219,9 @@ const DMXWeb = () => {
             })
             break;
 
-            /**
-             * On user save/update scene
-             */
+          /**
+           * On user save/update scene
+           */
           case "save-scene":
 
             if (!config.allowEditing) {
@@ -242,9 +243,9 @@ const DMXWeb = () => {
             })
             break;
 
-            /**
-             * On user delete scene
-             */
+          /**
+           * On user delete scene
+           */
           case "delete-scene":
 
             if (!config.allowEditing) {
@@ -257,6 +258,30 @@ const DMXWeb = () => {
             }
 
             scenes.deleteScene(packet.data.sceneId)
+
+            socket.emit("data-response", {
+              uuid: packet.uuid,
+              response: {
+                success: true
+              }
+            })
+            break;
+
+          /**
+           * On user save/update device
+           */
+          case "save-device":
+
+            if (!config.allowEditing) {
+              return socket.emit("data-response", {
+                uuid: packet.uuid,
+                response: {
+                  success: false
+                }
+              })
+            }
+
+            devices.saveDevice(packet.data)
 
             socket.emit("data-response", {
               uuid: packet.uuid,
@@ -284,7 +309,7 @@ const DMXWeb = () => {
   const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
   const dmx = this.getDMX()
   const devices = new Devices(dmx, config.devicesFileLocation)
-  const scenes = new Scenes(dmx, this.universes, devices, config.presets, config.scenesFileLocation)
+  const scenes = new Scenes(this, config.presets, config.scenesFileLocation)
   const app = this.makeApp();
   const server = this.makeServer()
   const io = this.makeSocketServer()

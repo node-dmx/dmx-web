@@ -94,6 +94,32 @@ html
                   button.btn.btn-secondary(type="button" data-dismiss="modal") Close
                   button.btn.btn-primary#editor-scene-modal-save(type="button" data-dismiss="modal") Add
 
+          // New Device Modal
+          .modal.fade#editor-add-device-modal(tabindex="-1" role="dialog" aria-labelledby="editor-add-device-modal" aria-hidden="true")
+            .modal-dialog(role="document")
+              .modal-content
+                .modal-header
+                  h5.modal-title New Device
+                  button.close(type="button" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                .modal-body
+                  form
+                    .form-group
+                      label.col-form-label Name:
+                      input.form-control#editor-add-device-modal-name(type="text", placeholder="Device Name")
+                    .form-group
+                      label.col-form-label Type:
+                      select.form-control#editor-add-device-modal-type
+                        each option, index in deviceTypes
+                          option=index
+                    .form-group
+                      label.col-form-label Address:
+                      input.form-control#editor-add-device-modal-address(type="number", value=1, min=1, max=512)
+
+                .modal-footer
+                  button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+                  button.btn.btn-primary#editor-device-modal-save(type="button" data-dismiss="modal") Add
+
           // Main editor
           .container-fluid
 
@@ -117,8 +143,13 @@ html
                   .col-md-9.col-sm-8
 
                     .card.bg-dark.text-white#editor-scene-help
-                      .card-body
-                        h5.text-secondary Select scene from the left to edit
+                      .card-body.text-center
+                        br
+                        h5.text-secondary Select a scene from the left to edit, or:
+                        br
+                        button.btn.btn-info.btn-lg(data-toggle="modal" data-target="#editor-scene-creator-modal") Create A New Scene
+                        br
+                        br
 
                     .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
                       .card-header
@@ -164,19 +195,19 @@ html
                   .card-header
                     h2
                       span Devices
-                      button.btn.btn-info.float-right
+                      button.btn.btn-info.float-right(data-toggle="modal" data-target="#editor-add-device-modal")
                         i.fas.force-parent-lh.fa-plus
                   .list-group
                     each device,index in devices
-                      button.list-group-item.list-group-item-action.bg-dark.text-white
+                      li.list-group-item.bg-dark.text-white
                         div
-                          span.badge.badge-primary #{device.address}-#{device.address + (device.channels.length - 1)}
-                          span.mr-2.ml-2 -
+                          span.badge.badge-primary #{device.address}-#{Number(device.address) + (device.channels.length - 1)}
+                          span.mr-2.ml-2 - 
                           span=device.label
                         div
                           each channel, k in device.channels
                             .col-sm-11.offset-sm-1
-                              span.badge.badge-secondary #{(device.address + k)}
+                              span.badge.badge-secondary #{Number(device.address) + k}
                               span.mr-2.ml-2 -
                               span=channel
 
