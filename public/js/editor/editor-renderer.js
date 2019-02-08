@@ -1,4 +1,4 @@
-const EditorRenderer = function(app) {
+const EditorRenderer = function(editor, app) {
 
 
   /**
@@ -164,7 +164,7 @@ const EditorRenderer = function(app) {
 
     $("#editor-scene-creator-modal-name").val("")
 
-    this.editor.setScene(scene)
+    editor.setScene(scene)
   })
 
   this.drawSceneEditor = (scene) => {

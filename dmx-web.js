@@ -8,6 +8,7 @@ const socketio = require('socket.io');
 const program = require('commander');
 const DMX = require('../dmx');
 const Scenes = require("./lib/Scenes.js")
+const Devices = require("./lib/Devices.js")
 
 program
   .version('0.0.1')
@@ -63,7 +64,8 @@ const DMXWeb = () => {
     app.get('/', (req, res) => {
       res.render('index', {
         scenes: scenes.getObject(),
-        config: config
+        config: config,
+        devices: devices.getObject()
       })
     });
 
@@ -155,7 +157,7 @@ const DMXWeb = () => {
 
   this.getClientConfigData = () => {
     return {
-      devices: dmx.devices,
+      devices: devices.getObject(),
       scenes: scenes.getObject(),
       config: config
     }
@@ -278,15 +280,11 @@ const DMXWeb = () => {
     });
   }
 
-  this.makeScenes = () => {
-    const scenes = new Scenes(dmx, this.universes, config.presets, config.scenesFileLocation)
-
-    return scenes;
-  }
 
   const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
   const dmx = this.getDMX()
-  const scenes = this.makeScenes()
+  const devices = new Devices(dmx, config.devicesFileLocation)
+  const scenes = new Scenes(dmx, this.universes, devices, config.presets, config.scenesFileLocation)
   const app = this.makeApp();
   const server = this.makeServer()
   const io = this.makeSocketServer()

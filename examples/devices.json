@@ -1,0 +1,14 @@
+[
+	{
+		"id": "df234as5-23fa-234f-8wer-23434ddsaw2e",
+		"label": "Generic Dimmer",
+		"type": "generic",
+		"address": 14
+	},
+	{
+		"id": "e244e345-3246-8cd0-8975-bd234a72712e",
+		"label": "MiniLED Moving Head",
+		"channels": ["pan", "pan-fine", "tilt", "tilt-fine", "move-speed", "dimmer-strobe-combo", "red", "green", "blue", "static-color", "program", "gobo-selector"],
+		"address": 1
+	}
+]

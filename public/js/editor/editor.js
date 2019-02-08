@@ -1,6 +1,6 @@
 const EditorController = function(app) {
 
-  this.renderer = new EditorRenderer(app)
+  this.renderer = new EditorRenderer(this, app)
 
   this.currentScene = null
 

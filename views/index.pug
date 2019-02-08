@@ -95,73 +95,92 @@ html
                   button.btn.btn-primary#editor-scene-modal-save(type="button" data-dismiss="modal") Add
 
           // Main editor
-          .container
-
-            br
-
-            .row-fluid
-              .d-flex.flex-row
-                div.w-100
-                  button.btn-dark.btn.btn-block(data-toggle="modal" data-target="#editor-scene-creator-modal") New Scene
-                //- div.w-100.mr-2
-                //-   button.btn-dark.btn.btn-block Add Fixture
-                //- div.w-100
-                //-   button.btn-dark.btn.btn-block New Fixture Type
-                
+          .container-fluid
 
             br
 
             .row
-              .col-md-3.col-sm-4
-                .list-group
-                  - for(let i = 0 ; i < scenes.length; i++)
-                    - if(scenes[i].hidden || scenes[i].legacy) continue;
-                    button.list-group-item.list-group-item-action.editor-scene-selector(scene_id=scenes[i].id)=scenes[i].label
+              .col-lg-9
+                .row
+                  .col-md-3.col-sm-4
+                    .card.bg-dark.text-white
+                      .card-header
+                        h2
+                          span Scenes
+                          button.btn.btn-info.float-right(data-toggle="modal" data-target="#editor-scene-creator-modal")
+                            i.fas.force-parent-lh.fa-plus
+                      .list-group
+                        each scene, index in scenes
+                          if !scene.hidden && !scene.legacy
+                            button.list-group-item.list-group-item-action.bg-dark.text-white.editor-scene-selector(scene_id=scene.id)=scene.label
 
-              .col-md-9.col-sm-8
+                  .col-md-9.col-sm-8
 
-                .card.bg-dark.text-white#editor-scene-help
-                  .card-body
-                    h5.text-secondary Select scene from the left to edit
+                    .card.bg-dark.text-white#editor-scene-help
+                      .card-body
+                        h5.text-secondary Select scene from the left to edit
 
-                .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
+                    .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
+                      .card-header
+                        h1
+                          span#editor-scene-title Scene Title
+                          button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
+                            i.fas.force-parent-lh.fa-trash-alt
+                      .card-body
+                        
+                        h4 Static
+                        br
+                        div.row
+                          div.col-sm-4
+                            p Universe
+                          div.col-sm-4
+                            p Channel
+                          div.col-sm-3
+                            p Value
+                          div.col-sm-1
+                        div#editor-scene-static
+                          p.text-secondary.text-center No Static Values 
+
+                        br
+
+                        button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
+
+                        hr
+
+                        h4 Animations
+                        br
+                        div#editor-scene-animations
+                          p.text-secondary.text-center No Animations
+
+                        br
+
+                        button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
+
+                      .card-footer
+                        button.btn.btn-primary#editor-scene-save Save
+
+              .col-lg-3
+                .card.bg-dark.text-white
                   .card-header
-                    h1
-                      span#editor-scene-title Scene Title
-                      button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
-                        i.fas.force-parent-lh.fa-trash-alt
-                  .card-body
-                    
-                    h4 Static
-                    br
-                    div.row
-                      div.col-sm-4
-                        p Universe
-                      div.col-sm-4
-                        p Channel
-                      div.col-sm-3
-                        p Value
-                      div.col-sm-1
-                    div#editor-scene-static
-                      p.text-secondary.text-center No Static Values 
+                    h2
+                      span Devices
+                      button.btn.btn-info.float-right
+                        i.fas.force-parent-lh.fa-plus
+                  .list-group
+                    each device,index in devices
+                      button.list-group-item.list-group-item-action.bg-dark.text-white
+                        div
+                          span.badge.badge-primary #{device.address}-#{device.address + device.channels.length}
+                          span.mr-2.ml-2 -
+                          span=device.label
+                        div
+                          each channel, k in device.channels
+                            .col-sm-11.offset-sm-1
+                              span.badge.badge-secondary #{(device.address + k)}
+                              span.mr-2.ml-2 -
+                              span=channel
 
-                    br
-
-                    button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
-
-                    hr
-
-                    h4 Animations
-                    br
-                    div#editor-scene-animations
-                      p.text-secondary.text-center No Animations
-
-                    br
-
-                    button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
-
-                  .card-footer
-                    button.btn.btn-primary#editor-scene-save Save
+                        
 
 
       div(class="tab-pane" id="sliders")
