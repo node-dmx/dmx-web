@@ -134,7 +134,7 @@ const DMXWeb = () => {
           animation.add(
             req.body[step].to,
             req.body[step].duration || 0,
-            req.body[step].options || {} 
+            req.body[step].options || {}
           );
         }
         animation.add(old, 0);
@@ -153,6 +153,14 @@ const DMXWeb = () => {
     return app;
   }
 
+  this.getClientConfigData = () => {
+    return {
+      devices: dmx.devices,
+      scenes: scenes.getObject(),
+      config: config
+    }
+  }
+
   this.makeSocketServer = () => {
     const io = socketio.listen(server);
 
@@ -161,10 +169,7 @@ const DMXWeb = () => {
       /**
        * Send config on initial connection
        */
-      socket.emit('config', {
-        'devices': dmx.devices,
-        'scenes': scenes.getObject()
-      });
+      socket.emit('config', this.getClientConfigData());
 
       for (const universe in dmx.universes) {
         socket.emit('update-dmx', universe, dmx.universeToObject(universe));
@@ -174,10 +179,7 @@ const DMXWeb = () => {
        * Send whole refresh
        */
       socket.on('request_refresh', () => {
-        socket.emit('config', {
-          'devices': dmx.devices,
-          'presets': config.presets
-        });
+        socket.emit('config', this.getClientConfigData());
 
         for (const universe in dmx.universes) {
           socket.emit('update-dmx', universe, dmx.universeToObject(universe));

@@ -2,13 +2,15 @@ const DmxSocket = function(app) {
 
   this.init = () => {
 
+    this.config = {};
+    this.devices = {};
+    this.scenes = {};
+
     this.requests = {};
 
     this.socket = io();
 
     this.bindListeners()
-
-    this.socket.emit('request_refresh');
   }
 
   /**
@@ -69,9 +71,10 @@ const DmxSocket = function(app) {
     /**
      * Load/Reload config
      */
-    this.socket.on('config', (msg) => {
-      const setup = msg.setup
-      const devices = msg.devices
+    this.socket.on('config', (res) => {
+      this.config = res.config
+      this.devices = res.devices
+      this.scenes = res.scenes
     });
 
     /**

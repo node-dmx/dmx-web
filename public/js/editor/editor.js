@@ -1,6 +1,6 @@
 const EditorController = function(app) {
 
-  this.renderer = new EditorRenderer(this)
+  this.renderer = new EditorRenderer(app)
 
   this.currentScene = null
 
@@ -9,8 +9,6 @@ const EditorController = function(app) {
    */
   $(".editor-scene-selector").on("click", (e) => {
     app.socket.getScene($(e.target).attr("scene_id"), (scene) => {
-      console.log(scene)
-
       this.currentScene = scene
       this.renderer.drawSceneEditor(this.currentScene)
     })
@@ -91,7 +89,7 @@ const EditorController = function(app) {
     $("div.editor-scene-static-row").each((i, e) => {
       const channel = $(e).find(".editor-scene-static-channel").val()
       const value = $(e).find(".editor-scene-static-value").val()
-      const universe = $(e).find(".editor-scene-static-universe").val()
+      const universe = $(e).find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
 
       values.push({
         type: "static",

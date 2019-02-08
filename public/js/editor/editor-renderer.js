@@ -79,10 +79,22 @@ const EditorRenderer = function(app) {
       const universe = container.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
 
       container.find(".editor-scene-animation-label").html(`Label: <input type="text" class="form-control editor-scene-animation-label-editor" value="${label}"></input>`)
-      container.find(".editor-scene-animation-universe").html(`Universe: <input type="text" class="form-control editor-scene-animation-universe-editor" value="${universe}"></input>`)
+
+      /**
+       * Make universe selector
+       */
+      let universeOptions = ""
+
+      for (let universeOption of Object.keys(app.socket.config.universes)) {
+        universeOptions += `
+        <option ${universeOption === universe ? "selected" : ""} editor-universe="${universeOption}">${universeOption}</option>
+      `
+      }
+
+      container.find(".editor-scene-animation-universe").html(`Universe: <select class="form-control editor-scene-animation-universe-editor">${universeOptions}</select>`)
     } else {
       const newLabel = container.find(".editor-scene-animation-label-editor").val()
-      const newUniverse = container.find(".editor-scene-animation-universe-editor").val()
+      const newUniverse = container.find(".editor-scene-animation-universe-editor").find("option:selected").attr("editor-universe")
 
       container.find(".editor-scene-animation-label").text(newLabel)
       container.find(".editor-scene-animation-universe").html(`<span class=" text-secondary badge badge-dark">${newUniverse}</span>`)
@@ -151,7 +163,7 @@ const EditorRenderer = function(app) {
     }
 
     $("#editor-scene-creator-modal-name").val("")
-    
+
     this.editor.setScene(scene)
   })
 
@@ -298,10 +310,20 @@ const EditorRenderer = function(app) {
   }
 
   this.generateStaticEditorRowHtml = (val) => {
+    let universeOptions = ""
+
+    for (let universe of Object.keys(app.socket.config.universes)) {
+      universeOptions += `
+        <option ${universe === val.universe ? "selected" : ""} editor-universe="${universe}">${universe}</option>
+      `
+    }
+
     return `
           <div class="editor-scene-static-row mb-3 row">
             <div class="col-md-4">
-              <input type="text" class="form-control editor-scene-static-universe col-sm-12" value="${val.universe}"></input>
+              <select class="editor-scene-static-universe form-control">
+                ${universeOptions}
+              </select>
             </div>
             <div class="col-md-4">
               <input type="text" class="form-control editor-scene-static-channel col-sm-12" value="${val.channel}"></input>

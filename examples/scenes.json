@@ -26,8 +26,7 @@
       {
         "type": "static",
         "channel": "1",
-        "value": "0",
-        "universe": "office"
+        "value": "0"
       }
     ]
   },
@@ -51,7 +50,7 @@
       {
         "type": "animation",
         "label": "Animation",
-        "universe": "office",
+        "universe": "test",
         "steps": [
           {
             "delay": "10000",
