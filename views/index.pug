@@ -204,6 +204,8 @@ html
                           span.badge.badge-primary #{device.address}-#{Number(device.address) + (device.channels.length - 1)}
                           span.mr-2.ml-2 - 
                           span=device.label
+                          button.btn.btn-danger.btn-sm.float-right.editor-device-delete(editor-device-id=device.id)
+                            i.fas.force-parent-lh.fa-trash-alt
                         div
                           .col-sm-11.offset-md-1
                             table.table-sm.table-borderless.text-white

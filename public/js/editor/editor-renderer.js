@@ -187,6 +187,12 @@ const EditorRenderer = function(editor, app) {
     })
   })
 
+  $(".editor-device-delete").on("click", (e) => {
+    app.socket.deleteDevice($(e.currentTarget).attr("editor-device-id"), (result) => {
+      window.location.reload(true)
+    })
+  })
+
   this.drawSceneEditor = (scene) => {
     $("#editor-scene-title").text(scene.label)
 

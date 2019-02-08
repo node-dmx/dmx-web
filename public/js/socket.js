@@ -46,6 +46,10 @@ const DmxSocket = function(app) {
     this.socketRequest("save-device", device, callback)
   }
 
+  this.deleteDevice = (deviceId, callback) => {
+    this.socketRequest("delete-device", deviceId, callback)
+  }
+
   this.socketRequest = (type, data, callback) => {
     const uuid = this.generateUUID()
 

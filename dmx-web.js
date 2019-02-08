@@ -291,6 +291,30 @@ const DMXWeb = () => {
             })
             break;
 
+          /**
+           * On user delete device
+           */
+          case "delete-device":
+
+            if (!config.allowEditing) {
+              return socket.emit("data-response", {
+                uuid: packet.uuid,
+                response: {
+                  success: false
+                }
+              })
+            }
+
+            devices.deleteDevice(packet.data)
+
+            socket.emit("data-response", {
+              uuid: packet.uuid,
+              response: {
+                success: true
+              }
+            })
+            break;
+
           default:
             console.log("Warning! Invalid data-request type received!")
         }
