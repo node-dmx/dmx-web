@@ -20,7 +20,7 @@
   },
   {
     "id": "df234as5-23fa-234f-8wer-23434ddsaw2e",
-    "label": "Generic Dimmer",
+    "label": "My Generic Dimmer",
     "type": "generic",
     "address": 14,
     "channels": [
@@ -29,7 +29,7 @@
   },
   {
     "id": "698c318f-73e1-4c54-92e6-9bdcae573eb0",
-    "label": "Ayyy",
+    "label": "My LED Bar",
     "address": 32,
     "type": "eurolite-led-bar",
     "channels": [
@@ -129,7 +129,7 @@
   },
   {
     "id": "b8c9e44a-5aa4-47e2-8365-6b617d69385f",
-    "label": "Ayy Baddabing",
+    "label": "My Spot",
     "address": 345,
     "type": "briteq-bt-theatre-60FC",
     "channels": [
