@@ -39,7 +39,7 @@
       {
         "type": "static",
         "channel": "8",
-        "value": "255",
+        "value": "0",
         "universe": "office"
       },
       {
@@ -51,7 +51,7 @@
       {
         "type": "animation",
         "label": "Animation",
-        "universe": "test",
+        "universe": "office",
         "steps": [
           {
             "delay": "10000",
@@ -98,14 +98,8 @@
       },
       {
         "type": "static",
-        "channel": "8",
-        "value": "255",
-        "universe": "office"
-      },
-      {
-        "type": "static",
-        "channel": "9",
-        "value": "255",
+        "channel": "6",
+        "value": "20",
         "universe": "office"
       },
       {
@@ -122,25 +116,25 @@
           {
             "delay": "0",
             "channels": {
-              "6": "255"
+              "8": "255"
             }
           },
           {
             "delay": "100",
             "channels": {
-              "6": "255"
+              "8": "255"
             }
           },
           {
             "delay": "0",
             "channels": {
-              "6": "0"
+              "8": "0"
             }
           },
           {
             "delay": "100",
             "channels": {
-              "6": "0"
+              "8": "0"
             }
           }
         ]
