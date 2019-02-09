@@ -7,14 +7,13 @@
       "pan-fine",
       "tilt",
       "tilt-fine",
-      "move-speed",
-      "dimmer-strobe-combo",
-      "red",
-      "green",
-      "blue",
       "static-color",
+      "gobo-selector",
+      "strobe",
+      "dimmer",
+      "move-speed",
       "program",
-      "gobo-selector"
+      "program"
     ],
     "address": 1
   },
