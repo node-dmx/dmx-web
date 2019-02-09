@@ -26,7 +26,8 @@
       {
         "type": "static",
         "channel": "1",
-        "value": "0"
+        "value": "0",
+        "universe": "office"
       }
     ]
   },
