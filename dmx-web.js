@@ -333,7 +333,7 @@ const DMXWeb = () => {
   const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
   const dmx = this.getDMX()
   const devices = new Devices(dmx, config.devicesFileLocation)
-  const scenes = new Scenes(this, config.presets, config.scenesFileLocation)
+  const scenes = new Scenes(this, dmx, config.universes, config.presets, config.scenesFileLocation)
   const app = this.makeApp();
   const server = this.makeServer()
   const io = this.makeSocketServer()
