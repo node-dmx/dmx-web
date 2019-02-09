@@ -127,8 +127,9 @@ const EditorRenderer = function(editor, app) {
     const stepElem = $(e.target).closest(".editor-scene-animation-step-container").find(".editor-scene-animation-step")
     const delay = stepElem.attr("editor-scene-animation-step-delay")
     const stepCount = stepElem.attr("editor-scene-animation-step-count")
+    const stepUUID = stepElem.attr("editor-scene-animation-step-uuid")
 
-    $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count", stepCount)
+    $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count", stepCount).attr("editor-scene-animation-step-uuid", stepUUID)
     $("#editor-scene-step-editor-modal-delay").val(delay)
   })
 
@@ -138,10 +139,11 @@ const EditorRenderer = function(editor, app) {
   $("#editor-scene-step-editor-modal-save").on("click", (e) => {
     const delay = $("#editor-scene-step-editor-modal-delay").val()
     const count = $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-count")
+    const stepUUID = $("#editor-scene-step-editor-modal").attr("editor-scene-animation-step-uuid")
 
-    $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`).attr("editor-scene-animation-step-delay", delay)
+    $(`.editor-scene-animation-step[editor-scene-animation-step-uuid="${stepUUID}"]`).attr("editor-scene-animation-step-delay", delay)
 
-    $(`.editor-scene-animation-step[editor-scene-animation-step-count="${count}"]`)
+    $(`.editor-scene-animation-step[editor-scene-animation-step-uuid="${stepUUID}"]`)
       .closest(".editor-scene-animation-step-container")
       .find(".editor-scene-animation-step-title")
       .text(`Step ${count} (Delay: ${delay}ms)`)
@@ -274,7 +276,7 @@ const EditorRenderer = function(editor, app) {
               <button class="float-right btn btn-info btn mr-3 editor-scene-animation-step-edit" data-toggle="modal" data-target="#editor-scene-step-editor-modal"><i class="fas fa-wrench"></i></button>
             </h5>
           </div>
-          <div class="card-body editor-scene-animation-step" editor-scene-animation-step-count=${count} editor-scene-animation-step-delay="${step.delay}">
+          <div class="card-body editor-scene-animation-step" editor-scene-animation-step-count=${count} editor-scene-animation-step-delay="${step.delay}" editor-scene-animation-step-uuid="${app.socket.generateUUID()}">
 
           <div class="mb-3 row">
             <div class="col-md-6">

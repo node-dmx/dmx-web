@@ -84,5 +84,86 @@
         ]
       }
     ]
+  },
+  {
+    "id": "99598c51-5674-447a-a462-279c093d1f27",
+    "label": "Strobe Heads",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "7",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "9",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "64",
+        "universe": "office"
+      },
+      {
+        "type": "animation",
+        "label": "Shutter",
+        "universe": "office",
+        "steps": [
+          {
+            "delay": "0",
+            "channels": {
+              "6": "255"
+            }
+          },
+          {
+            "delay": "100",
+            "channels": {
+              "6": "255"
+            }
+          },
+          {
+            "delay": "0",
+            "channels": {
+              "6": "0"
+            }
+          },
+          {
+            "delay": "100",
+            "channels": {
+              "6": "0"
+            }
+          }
+        ]
+      },
+      {
+        "type": "animation",
+        "label": "Movement",
+        "universe": "office",
+        "steps": [
+          {
+            "delay": "2000",
+            "channels": {
+              "1": "255"
+            }
+          },
+          {
+            "delay": "2000",
+            "channels": {
+              "1": "0"
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
