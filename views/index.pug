@@ -240,13 +240,16 @@ html
 
       div(class="tab-pane" id="sliders")
         br
-        .container
-          .dmx-container
-            each _, channel in Array(512)
-              .dmx-fader
-                input(class="dmx-channel" type="range" orient="vertical" universe="office" channel=channel+1 min=0 max=255)
-                .dmx-label
-                  =channel+1
+        .container-fluid
+          each universe, universeName in config.universes
+            h3.text-white=universeName
+            .dmx-container
+              each _, channel in Array(512)
+                .dmx-fader
+                  input(class="dmx-channel" type="range" orient="vertical" universe=universeName channel=channel+1 min=0 max=255 value=0)
+                  .dmx-label
+                    =channel+1
+            br
 
 
 
