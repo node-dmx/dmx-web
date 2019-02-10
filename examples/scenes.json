@@ -37,18 +37,6 @@
     "type": "full",
     "values": [
       {
-        "type": "static",
-        "channel": "8",
-        "value": "255",
-        "universe": "office"
-      },
-      {
-        "type": "static",
-        "channel": "5",
-        "value": "20",
-        "universe": "office"
-      },
-      {
         "type": "animation",
         "label": "Animation",
         "universe": "office",

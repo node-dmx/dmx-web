@@ -1,4 +1,30 @@
 br
+
+.modal.fade#sliders-scene-creator-modal(tabindex="-1" role="dialog" aria-labelledby="sliders-scene-creator-modal" aria-hidden="true")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        h5.modal-title New Scene
+        button.close(type="button" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") &times;
+      .modal-body
+        form
+          .form-group
+            label.col-form-label Name:
+            input.form-control#sliders-scene-creator-modal-name(type="text", placeholder="Scene Name")
+      .modal-footer
+        button.btn.btn-secondary(type="button" data-dismiss="modal") Close
+        button.btn.btn-primary#sliders-scene-modal-save(type="button" data-dismiss="modal") Save
+
+.container-fluid.text-right
+  .card.bg-dark
+    .card-body.p-2
+      button.btn.btn-primary(data-toggle="modal" data-target="#sliders-scene-creator-modal")
+        i.fas.force-parent-lh.fa-save
+        span.ml-2 Save As Scene
+
+br
+  
 .container-fluid
   each universe, universeName in config.universes
     h3.text-white=universeName
