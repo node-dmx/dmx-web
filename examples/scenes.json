@@ -80,12 +80,6 @@
     "values": [
       {
         "type": "static",
-        "channel": "7",
-        "value": "255",
-        "universe": "office"
-      },
-      {
-        "type": "static",
         "channel": "6",
         "value": "20",
         "universe": "office"
