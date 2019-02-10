@@ -39,7 +39,7 @@
       {
         "type": "static",
         "channel": "8",
-        "value": "0",
+        "value": "255",
         "universe": "office"
       },
       {
