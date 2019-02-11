@@ -92,6 +92,9 @@ const EditorRenderer = function(editor, app) {
 
       container.find(".editor-scene-animation-universe").html(`Universe: <select class="form-control editor-scene-animation-universe-editor">${universeOptions}</select>`)
     } else {
+
+      $(e.currentTarget).html(`<i class="fas fa-edit"></i>`)
+      
       const newLabel = container.find(".editor-scene-animation-label-editor").val()
       const newUniverse = container.find(".editor-scene-animation-universe-editor").find("option:selected").attr("editor-universe")
 
@@ -101,6 +104,11 @@ const EditorRenderer = function(editor, app) {
       container.closest(".editor-scene-animation")
         .attr("editor-scene-animation-label", newLabel)
         .attr("editor-scene-animation-universe", newUniverse)
+
+      /**
+       * Trigger animation input changes to reload labels
+       */
+      $(".editor-scene-animation-step-channel").trigger("change")
     }
 
   })
@@ -168,16 +176,30 @@ const EditorRenderer = function(editor, app) {
     editor.setScene(scene)
   })
 
+  /**
+   * On edit static channel
+   */
   $("#editor-scene-editor").on("change keyup paste", ".editor-scene-static-channel", (e) => {
     const row = $(e.target).closest(".editor-scene-static-row");
     const universe = row.find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
     row.find(".editor-scene-static-channel-label").text(this.getChannelLabel(universe, $(e.target).val()))
   })
 
+  /**
+   * On edit static universe
+   */
   $("#editor-scene-editor").on("change", ".editor-scene-static-universe", (e) => {
-    const row = $(e.target).closest(".editor-scene-static-row");
-    const universe = row.find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
-    row.find(".editor-scene-static-channel-label").text(this.getChannelLabel(universe, row.find(".editor-scene-static-channel").val()))
+    $(".editor-scene-static-channel").trigger("change")
+  })
+
+  /**
+   * On edit animation channel
+   */
+  $("#editor-scene-editor").on("change keyup paste", ".editor-scene-animation-step-channel", (e) => {
+    const row = $(e.target).closest(".editor-scene-animation-step-row");
+    const universe = row.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
+
+    row.find(".editor-scene-animation-step-channel-label").text(this.getChannelLabel(universe, $(e.target).val()))
   })
 
   this.getChannelLabel = (universe, channel) => {
@@ -245,7 +267,7 @@ const EditorRenderer = function(editor, app) {
 
       count++
 
-      html += this.generateAnimationEditorStepHtml(count, step)
+      html += this.generateAnimationEditorStepHtml(val.universe, count, step)
     }
 
     html += `
@@ -259,7 +281,7 @@ const EditorRenderer = function(editor, app) {
     return html
   }
 
-  this.generateAnimationEditorStepHtml = (count, step) => {
+  this.generateAnimationEditorStepHtml = (universe, count, step) => {
     let html = ""
 
     html += `
@@ -287,7 +309,7 @@ const EditorRenderer = function(editor, app) {
       `
 
     for (const channel of Object.keys(step.channels)) {
-      html += this.generateAnimationStepRowHtml(channel, step.channels[channel])
+      html += this.generateAnimationStepRowHtml(universe, channel, step.channels[channel])
     }
 
     html += `
@@ -302,14 +324,21 @@ const EditorRenderer = function(editor, app) {
     return html
   }
 
-  this.generateAnimationStepRowHtml = (channel, value) => {
+  this.generateAnimationStepRowHtml = (universe, channel, value) => {
     return `
           <div class="editor-scene-animation-step-row mb-3 row">
             <div class="col-md-6">
-              <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
+              <div class="input-group">
+                <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
+                <div class="input-group-append w-75">
+                  <span class="input-group-text w-100">
+                    <span class="truncate editor-scene-animation-step-channel-label">${this.getChannelLabel(universe, channel)}</span>
+                  </span>
+                </div>
+              </div>
             </div>
             <div class="col-md-4">
-              <input type="text" class="form-control editor-scene-animation-step-channel-value col-sm-12" value="${value}"></input>
+                <input type="text" class="form-control editor-scene-animation-step-channel-value" value="${value}"></input>
             </div>
             <div class="col-md-2">
               <button class="btn btn-danger btn-block editor-scene-animation-step-row-remove"><i class="fas force-parent-lh fa-trash-alt"></i></button>
