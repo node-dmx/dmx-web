@@ -3,6 +3,6 @@ br
   .row
     - for(let i = 0 ; i < scenes.length; i++)
       - if(scenes[i].hidden) continue
-      .col-md-2.col-sm-3
+      .col-md-2.col-sm-4.col-6
         .dmx-scene-trigger-container
           button.btn-block.btn.btn-lg.btn-secondary.dmx-scene-trigger.dmx-scene-trigger-control(scene_id=scenes[i].id style=("color" in scenes[i] ? "border-color: " + scenes[i].color + "; background-color: " + scenes[i].color : ""))=scenes[i].label

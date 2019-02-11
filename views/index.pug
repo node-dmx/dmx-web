@@ -24,8 +24,10 @@ html
     nav.navbar.navbar-expand-lg.navbar-light.bg-light
       a.navbar-brand(href="#") DMX WEB
       
-      button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation")
-        span(class="navbar-toggler-icon")
+      .btn-group.d-md-block.d-lg-none
+        button.btn.btn-danger.dmx-scene-trigger(scene_id="default-blackout") Blackout
+        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation")
+          span(class="navbar-toggler-icon")
 
       div(class="collapse navbar-collapse" id="main-navbar")
         ul(class="navbar-nav mr-auto")
@@ -39,7 +41,7 @@ html
           li(class="nav-item")
             a(class="nav-link" href="#sliders") Simple Sliders
 
-        button.btn.btn-danger.dmx-scene-trigger(scene_id="default-blackout")="Blackout"
+        button.d-none.d-lg-block.btn.btn-danger.dmx-scene-trigger(scene_id="default-blackout")="Blackout"
         
 
     div(class="tab-content" id="main-content-tabs")
