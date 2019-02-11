@@ -24,7 +24,7 @@ const EditorRenderer = function(editor, app) {
    */
   $("#editor-scene-add-animation").on("click", (e) => {
     $("#editor-scene-animations").append(this.generateAnimationEditorRowHtml({
-      universe: "Universe Here",
+      universe: Object.keys(app.socket.config.universes)[0],
       label: "New Animation",
       steps: [{
         channels: {
