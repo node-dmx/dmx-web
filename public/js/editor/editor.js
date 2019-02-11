@@ -22,6 +22,41 @@ const EditorController = function(app) {
   })
 
   /**
+   * On save device
+   */
+  $("#editor-device-modal-save").on("click", (e) => {
+    const id = app.socket.generateUUID()
+    const label = $("#editor-add-device-modal-name").val()
+    const address = Number($("#editor-add-device-modal-address").val())
+    const universe = $("#editor-add-device-modal-universe").find("option:selected").text()
+    const type = $("#editor-add-device-modal-type").find("option:selected").text()
+
+    $("#editor-add-device-modal-name").val("")
+    $("#editor-add-device-modal-address").val(1)
+    $("#editor-add-device-modal-universe").find("option").removeAttr("selected")
+    $("#editor-add-device-modal-type").find("option").removeAttr("selected")
+
+    app.socket.saveDevice({
+      id,
+      label,
+      universe,
+      address,
+      type
+    }, (result) => {
+      window.location.reload(true)
+    })
+  })
+
+  /**
+   * On delete device
+   */
+  $(".editor-device-delete").on("click", (e) => {
+    app.socket.deleteDevice($(e.currentTarget).attr("editor-device-id"), (result) => {
+      window.location.reload(true)
+    })
+  })
+
+  /**
    * On delete scene
    */
   $("#editor-scene-delete").on("click", (e) => {

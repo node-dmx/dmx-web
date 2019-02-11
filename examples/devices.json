@@ -1,7 +1,7 @@
 [
   {
     "id": "e244e345-3246-8cd0-8975-bd234a72712e",
-    "label": "MiniLED Moving Head",
+    "label": "MiniLED Spot",
     "channels": [
       "pan",
       "pan-fine",
@@ -15,121 +15,38 @@
       "program",
       "program"
     ],
-    "address": 1
+    "address": 1,
+    "universe": "office"
   },
   {
-    "id": "698c318f-73e1-4c54-92e6-9bdcae573eb0",
-    "label": "My LED Bar",
-    "address": 32,
-    "type": "eurolite-led-bar",
+    "id": "5ae890f-0126-92cd-dd03-ac22de4a7628",
+    "label": "MiniLED Moving Head",
     "channels": [
-      "ctrl",
-      "dimmer",
-      "strobe",
-      "red0",
-      "green0",
-      "blue0",
-      "red1",
-      "green1",
-      "blue1",
-      "red2",
-      "green2",
-      "blue2"
-    ],
-    "ranges": {
-      "ctrl": {
-        "type": "option",
-        "options": [
-          {
-            "value": 0,
-            "label": "Black Out"
-          },
-          {
-            "value": 1,
-            "label": "Dimmer 1"
-          },
-          {
-            "value": 16,
-            "label": "Dimmer 2"
-          },
-          {
-            "value": 32,
-            "label": "Red"
-          },
-          {
-            "value": 48,
-            "label": "Green"
-          },
-          {
-            "value": 64,
-            "label": "Blue"
-          },
-          {
-            "value": 80,
-            "label": "Purple"
-          },
-          {
-            "value": 96,
-            "label": "Yellow"
-          },
-          {
-            "value": 112,
-            "label": "Cyan"
-          },
-          {
-            "value": 128,
-            "label": "White"
-          },
-          {
-            "value": 144,
-            "label": "Color change"
-          },
-          {
-            "value": 160,
-            "label": "Color flow"
-          },
-          {
-            "value": 176,
-            "label": "Color dream"
-          },
-          {
-            "value": 192,
-            "label": "Multi flow"
-          },
-          {
-            "value": 208,
-            "label": "Dream flow"
-          },
-          {
-            "value": 224,
-            "label": "Two color flow"
-          },
-          {
-            "value": 240,
-            "label": "Sound activity"
-          }
-        ]
-      },
-      "dimmer": {
-        "type": "slider",
-        "min": 0,
-        "max": 255
-      }
-    }
-  },
-  {
-    "id": "b8c9e44a-5aa4-47e2-8365-6b617d69385f",
-    "label": "My Spot",
-    "address": 345,
-    "type": "briteq-bt-theatre-60FC",
-    "channels": [
-      "dimmer",
-      "strobe",
-      "effect",
+      "pan",
+      "pan-fine",
+      "tilt",
+      "tilt-fine",
+      "move-speed",
+      "dimmer-strobe-combo",
       "red",
       "green",
       "blue",
-      "white"
+      "static-color",
+      "color-speed",
+      "program",
+      "gobo-selector"
+    ],
+    "address": 12,
+    "universe": "office"
+  },
+  {
+    "id": "cc624132-cc7b-4c4c-a506-21a9c2b8e5ba",
+    "label": "Iffles",
+    "universe": "office",
+    "address": 100,
+    "type": "generic",
+    "channels": [
+      "dimmer"
     ]
   }
 ]

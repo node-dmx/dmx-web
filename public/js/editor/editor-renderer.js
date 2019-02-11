@@ -1,13 +1,12 @@
 const EditorRenderer = function(editor, app) {
 
-
   /**
    * On add static row
    */
   $("#editor-scene-add-static").on("click", (e) => {
     $("#editor-scene-static").append(this.generateStaticEditorRowHtml({
-      universe: "",
-      channel: "0",
+      universe: Object.keys(app.socket.config.universes)[0],
+      channel: 1,
       value: 0,
     }))
   })
@@ -28,7 +27,7 @@ const EditorRenderer = function(editor, app) {
       label: "New Animation",
       steps: [{
         channels: {
-          0: 0
+          1: 0
         },
         delay: 1000
       }]
@@ -52,7 +51,7 @@ const EditorRenderer = function(editor, app) {
     container.append(
       this.generateAnimationEditorStepHtml(count, {
         channels: {
-          0: 0
+          1: 0
         },
         delay: 1000
       }))
@@ -169,31 +168,27 @@ const EditorRenderer = function(editor, app) {
     editor.setScene(scene)
   })
 
-  $("#editor-device-modal-save").on("click", (e) => {
-    const id = app.socket.generateUUID()
-    const label = $("#editor-add-device-modal-name").val()
-    const address = Number($("#editor-add-device-modal-address").val())
-    const type = $("#editor-add-device-modal-type").find("option:selected").text()
-
-    $("#editor-add-device-modal-name").val("")
-    $("#editor-add-device-modal-address").val(1)
-    $("#editor-add-device-modal-type").find("option").removeAttr("selected")
-
-    app.socket.saveDevice({
-      id,
-      label,
-      address,
-      type
-    }, (result) => {
-      window.location.reload(true)
-    })
+  $("#editor-scene-editor").on("change keyup paste", ".editor-scene-static-channel", (e) => {
+    const row = $(e.target).closest(".editor-scene-static-row");
+    const universe = row.find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
+    row.find(".editor-scene-static-channel-label").text(this.getChannelLabel(universe, $(e.target).val()))
   })
 
-  $(".editor-device-delete").on("click", (e) => {
-    app.socket.deleteDevice($(e.currentTarget).attr("editor-device-id"), (result) => {
-      window.location.reload(true)
-    })
+  $("#editor-scene-editor").on("change", ".editor-scene-static-universe", (e) => {
+    const row = $(e.target).closest(".editor-scene-static-row");
+    const universe = row.find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
+    row.find(".editor-scene-static-channel-label").text(this.getChannelLabel(universe, row.find(".editor-scene-static-channel").val()))
   })
+
+  this.getChannelLabel = (universe, channel) => {
+    for(let device of app.socket.devices){
+      if(device.universe == universe && device.address <= channel && device.address + device.channels.length > channel) {
+        return device.label + ": " + device.channels[channel - device.address]
+      }
+    }
+
+    return "Unknown"
+  }
 
   this.drawSceneEditor = (scene) => {
     $("#editor-scene-title").text(scene.label)
@@ -342,7 +337,7 @@ const EditorRenderer = function(editor, app) {
 
     for (let universe of Object.keys(app.socket.config.universes)) {
       universeOptions += `
-        <option ${universe === val.universe ? "selected" : ""} editor-universe="${universe}">${universe}</option>
+        <option ${universe === val.universe ? "selected='selected'" : ""} editor-universe="${universe}">${universe}</option>
       `
     }
 
@@ -354,7 +349,14 @@ const EditorRenderer = function(editor, app) {
               </select>
             </div>
             <div class="col-md-4">
-              <input type="text" class="form-control editor-scene-static-channel col-sm-12" value="${val.channel}"></input>
+              <div class="input-group">
+                <input type="text" class="form-control w-25 editor-scene-static-channel" value="${val.channel}"></input>
+                <div class="input-group-append w-75">
+                  <span class="input-group-text w-100">
+                    <span class="truncate editor-scene-static-channel-label">${this.getChannelLabel(val.universe, val.channel)}</span>
+                  </span>
+                </div>
+              </div>
             </div>
             <div class="col-md-2">
               <input type="text" class="form-control editor-scene-static-value col-sm-12" value="${val.value}"></input>

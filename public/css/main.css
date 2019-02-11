@@ -46,3 +46,8 @@ input[type=range][orient=vertical]
   line-height: inherit !important;
 }
 
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

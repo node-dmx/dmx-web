@@ -28,6 +28,12 @@
         "channel": "1",
         "value": "0",
         "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "0",
+        "universe": "office"
       }
     ]
   },
@@ -91,6 +97,18 @@
         "universe": "office"
       },
       {
+        "type": "static",
+        "channel": "19",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "24",
+        "value": "30",
+        "universe": "office"
+      },
+      {
         "type": "animation",
         "label": "Shutter",
         "universe": "office",
@@ -98,25 +116,29 @@
           {
             "delay": "0",
             "channels": {
-              "8": "255"
+              "8": "255",
+              "17": "0"
             }
           },
           {
             "delay": "100",
             "channels": {
-              "8": "255"
+              "8": "255",
+              "17": "0"
             }
           },
           {
             "delay": "0",
             "channels": {
-              "8": "0"
+              "8": "0",
+              "17": "255"
             }
           },
           {
             "delay": "100",
             "channels": {
-              "8": "0"
+              "8": "0",
+              "17": "255"
             }
           }
         ]
@@ -129,13 +151,15 @@
           {
             "delay": "1000",
             "channels": {
-              "1": "255"
+              "1": "255",
+              "12": "0"
             }
           },
           {
             "delay": "1000",
             "channels": {
-              "1": "0"
+              "1": "0",
+              "12": "255"
             }
           }
         ]
@@ -148,16 +172,122 @@
           {
             "delay": "500",
             "channels": {
-              "3": "191"
+              "3": "191",
+              "14": "64"
             }
           },
           {
             "delay": "500",
             "channels": {
-              "3": "64"
+              "3": "64",
+              "14": "191"
             }
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "2547dea9-991a-45ae-be85-f674cce45d30",
+    "label": "Uppos",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "1",
+        "value": 86,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": 127,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": 32,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "6",
+        "value": 13,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": 255,
+        "universe": "office"
+      }
+    ]
+  },
+  {
+    "id": "b0a17e50-b83d-458a-804e-ecce07166c41",
+    "label": "Blue Rings",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "1",
+        "value": 63,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": 222,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": 38,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "6",
+        "value": 49,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": 255,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "12",
+        "value": 18,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "14",
+        "value": 51,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "17",
+        "value": 255,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "20",
+        "value": 255,
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "channel": "24",
+        "value": 26,
+        "universe": "office"
       }
     ]
   }
