@@ -296,10 +296,10 @@ const EditorRenderer = function(editor, app) {
           <div class="card-body editor-scene-animation-step" editor-scene-animation-step-count=${count} editor-scene-animation-step-delay="${step.delay}" editor-scene-animation-step-uuid="${app.socket.generateUUID()}">
 
           <div class="mb-3 row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               Channel
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
               Value
             </div>
             <div class="col-md-1"></div>
@@ -327,7 +327,7 @@ const EditorRenderer = function(editor, app) {
   this.generateAnimationStepRowHtml = (universe, channel, value) => {
     return `
           <div class="editor-scene-animation-step-row mb-3 row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div class="input-group">
                 <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
                 <div class="input-group-append w-75">
@@ -337,7 +337,7 @@ const EditorRenderer = function(editor, app) {
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <input type="text" class="form-control editor-scene-animation-step-channel-value" value="${value}"></input>
             </div>
             <div class="col-md-2">
@@ -372,12 +372,12 @@ const EditorRenderer = function(editor, app) {
 
     return `
           <div class="editor-scene-static-row mb-3 row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <select class="editor-scene-static-universe form-control">
                 ${universeOptions}
               </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
               <div class="input-group">
                 <input type="text" class="form-control w-25 editor-scene-static-channel" value="${val.channel}"></input>
                 <div class="input-group-append w-75">
