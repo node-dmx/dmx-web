@@ -18,11 +18,13 @@ This configuration file consists of these sections:
 - `universes`
 - `scenesFileLocation`
 - `devicesFileLocation`
+- `allowEditing`
 
-In the Server section you can set the listen port and host.
-Under Universes you describe the DMX Universes with details like which output driver to use and which devices are at which address.
-`scenesFileLocation` is used to specify a JSON file where scenes should be saved to. 
-`devicesFileLocation` is used to specify a JSON file where configured devices should be saved to. 
+- `server` is used to set the listen port and host.
+- `universes` is used to describe the DMX Universes with details like which output driver to use and which devices are at which address.
+- `scenesFileLocation` is used to specify a JSON file where scenes should be saved to. 
+- `devicesFileLocation` is used to specify a JSON file where configured devices should be saved to. 
+- `allowEditing` is used to enable or disabling editing of scenes and devices via the web UI. 
 
 A example configuration is in the repository by the name `dmx-web-example.conf`
 
@@ -30,9 +32,15 @@ A example configuration is in the repository by the name `dmx-web-example.conf`
 
 `dmx-web [-c <full-path to config file>]`
 
-### Run as a service
+#### Run as a service
 
 On MacOS you can run dmx-web as a service by adding a launch script to `/Library/LaunchDaemons`. See the example file.
+
+## Scenes
+Scenes are combinations of Animations and static values which can be edited and activated via the web UI. They are saved into a file located at `scenesFileLocation` so they can be recalled later.
+
+## Devices
+You can add devices via the web UI or by editing the file specified in `devicesFileLocation`. Devices are used to display what a DMX channel is used for.
 
 ### HTTP API
 There is a HTTP api embded into dmx-web which allows you to set DMX values via http calls
