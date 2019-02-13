@@ -8,19 +8,26 @@ html
 
     title DMX WEB
 
-    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous")
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+    //- Load vendor css
+    link(rel="stylesheet" href="/vendor/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous")
+    link(rel="stylesheet" href="/vendor/css/fontawesome-v5.7.1.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous")
+    
+    //- Load custom css
     link(rel="stylesheet" href="/css/main.css")
 
-    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous")
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous")
+    //- Load vendor js
+    script(src="/vendor/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="/vendor/js/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous")
+    script(src="/vendor/js/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous")
+    script(src="/vendor/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous")
+    script(src="/vendor/js/jquery.ba-throttle-debounce.min.js")
+
+    //- Load socket.io
     script(src="/socket.io/socket.io.js")
 
   body
 
+    //- Build navbar
     nav.navbar.navbar-expand-lg.navbar-light.bg-light
       a.navbar-brand(href="#") DMX WEB
       
@@ -43,10 +50,8 @@ html
 
         button.d-none.d-lg-block.btn.btn-danger.dmx-scene-trigger(scene_id="default-blackout")="Blackout"
         
-
+    // Build content
     div(class="tab-content" id="main-content-tabs")
-      div(class="tab-pane" id="home")
-          p tab1
       div(class="tab-pane" id="control")
         include includes/control.pug
 
@@ -54,12 +59,10 @@ html
         div.tab-pane(id="edit")
           include includes/editor.pug
           
-
       div(class="tab-pane" id="sliders")
         include includes/sliders.pug
 
-
-
+  // Load custom JS
   script(src="/js/navbar.js")
   script(src="/js/socket.js")
   script(src="/js/slider.js")
