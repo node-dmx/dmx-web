@@ -13,13 +13,6 @@ Webinterface and HTTP API using [node-dmx](https://github.com/node-dmx/dmx)
 The Daemon `dmx-web` looks for a configuration file in `/etc/dmx-web.json`. An alternate location can be passed as a command line argument.
 
 This configuration file consists of these sections:
-
-- `server`
-- `universes`
-- `scenesFileLocation`
-- `devicesFileLocation`
-- `allowEditing`
-
 - `server` is used to set the listen port and host.
 - `universes` is used to describe the DMX Universes with details like which output driver to use and which devices are at which address.
 - `scenesFileLocation` is used to specify a JSON file where scenes should be saved to. 
