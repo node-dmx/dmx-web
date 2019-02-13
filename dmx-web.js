@@ -72,7 +72,7 @@ const DMXWeb = () => {
     });
 
     /**
-     * Get config
+     * Get the config
      */
     app.get('/config', (req, res) => {
       const response = {
@@ -88,7 +88,7 @@ const DMXWeb = () => {
     });
 
     /**
-     * get state of universe
+     * Get state of a universe
      */
     app.get('/state/:universe', (req, res) => {
       if (!(req.params.universe in dmx.universes)) {
@@ -105,7 +105,6 @@ const DMXWeb = () => {
 
     /**
      * Set state of universe. 
-     * @deprecated Setting the state of a universe this way is deprecated! Use scenes instead!
      */
     app.post('/state/:universe', (req, res) => {
       if (!(req.params.universe in dmx.universes)) {
@@ -123,7 +122,6 @@ const DMXWeb = () => {
 
     /**
      * Run animation in universe
-     * @deprecated Setting the state of a universe this way is deprecated! Use scenes instead!
      */
     app.post('/animation/:universe', (req, res) => {
       try {
