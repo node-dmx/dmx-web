@@ -4,12 +4,12 @@ const fs = require('fs');
 const http = require('http');
 const body = require('body-parser');
 const express = require('express');
-const socketio = require('socket.io');
 const program = require('commander');
 const _ = require('underscore');
 const DMX = require('../dmx');
 const Scenes = require("./lib/Scenes.js")
 const Devices = require("./lib/Devices.js")
+const SocketHandler = require("./lib/SocketHandler.js")
 
 program
   .version('0.0.1')
@@ -164,166 +164,7 @@ const DMXWeb = () => {
   }
 
   this.makeSocketServer = () => {
-    const io = socketio.listen(server);
-
-    /**
-     * On socket connect
-     */
-    io.sockets.on('connection', (socket) => {
-
-      /**
-       * Send config on initial connection
-       */
-      socket.emit('config', this.getClientConfigData());
-
-      for (const universe in dmx.universes) {
-        socket.emit('update-dmx', universe, dmx.universeToObject(universe));
-      }
-
-      /**
-       * Send whole refresh
-       */
-      socket.on('request_refresh', () => {
-        socket.emit('config', this.getClientConfigData());
-
-        for (const universe in dmx.universes) {
-          socket.emit('update-dmx', universe, dmx.universeToObject(universe));
-        }
-      });
-
-      /**
-       * On update dmx command
-       */
-      socket.on('update-dmx', (universe, update) => {
-        dmx.update(universe, update);
-      });
-
-      /*
-       * On update scene command
-       */
-      socket.on('update-scene', (data) => {
-        scenes.updateScene(data)
-      });
-
-      /*
-       * On data request command
-       */
-      socket.on('data-request', (packet) => {
-        switch (packet.type) {
-
-          /**
-           * On user get scene data
-           */
-          case "get-scene":
-            socket.emit("data-response", {
-              uuid: packet.uuid,
-              response: scenes.getSceneById(packet.data.sceneId) || {}
-            })
-            break;
-
-            /**
-             * On user save/update scene
-             */
-          case "save-scene":
-
-            if (!config.allowEditing) {
-              return socket.emit("data-response", {
-                uuid: packet.uuid,
-                response: {
-                  success: false
-                }
-              })
-            }
-
-            scenes.saveScene(packet.data)
-
-            socket.emit("data-response", {
-              uuid: packet.uuid,
-              response: {
-                success: true
-              }
-            })
-            break;
-
-            /**
-             * On user delete scene
-             */
-          case "delete-scene":
-
-            if (!config.allowEditing) {
-              return socket.emit("data-response", {
-                uuid: packet.uuid,
-                response: {
-                  success: false
-                }
-              })
-            }
-
-            scenes.deleteScene(packet.data.sceneId)
-
-            socket.emit("data-response", {
-              uuid: packet.uuid,
-              response: {
-                success: true
-              }
-            })
-            break;
-
-            /**
-             * On user save/update device
-             */
-          case "save-device":
-
-            if (!config.allowEditing) {
-              return socket.emit("data-response", {
-                uuid: packet.uuid,
-                response: {
-                  success: false
-                }
-              })
-            }
-
-            devices.saveDevice(packet.data)
-
-            socket.emit("data-response", {
-              uuid: packet.uuid,
-              response: {
-                success: true
-              }
-            })
-            break;
-
-            /**
-             * On user delete device
-             */
-          case "delete-device":
-
-            if (!config.allowEditing) {
-              return socket.emit("data-response", {
-                uuid: packet.uuid,
-                response: {
-                  success: false
-                }
-              })
-            }
-
-            devices.deleteDevice(packet.data)
-
-            socket.emit("data-response", {
-              uuid: packet.uuid,
-              response: {
-                success: true
-              }
-            })
-            break;
-
-          default:
-            console.log("Warning! Invalid data-request type received!")
-        }
-      });
-    });
-
-    return io
+    
   }
 
   /**
@@ -365,7 +206,7 @@ const DMXWeb = () => {
   const scenes = new Scenes(this, dmx, config.universes, config.presets, config.scenesFileLocation)
   const app = this.makeApp();
   const server = this.makeServer()
-  const io = this.makeSocketServer()
+  const io = new SocketHandler(this, server, config, dmx, devices, scenes)
 
   this.handleDmxUpdates()
 }
