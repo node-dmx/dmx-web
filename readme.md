@@ -37,6 +37,9 @@ On MacOS you can run dmx-web as a service by adding a launch script to `/Library
 ### HTTP API
 There is a HTTP api embded into dmx-web which allows you to set DMX values via http calls
 
+#### Static
+Set dmx values for a universe by posting to: `/state/<universe>`
+
 Example request:
 ```
 {
@@ -45,8 +48,6 @@ Example request:
   "3": 128
 } 
 ```
-#### Static
-Set dmx values for a universe by posting to: `/state/<universe>`
 
 #### Animations
 A List of Channel Transistions can be POSTed to `/animation/<universe>`. Each transistion is a JSON Object with at least the `to` property present. The Value of which also has to be an Object describing the channel end-states.
