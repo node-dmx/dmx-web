@@ -6,6 +6,7 @@ const body = require('body-parser');
 const express = require('express');
 const socketio = require('socket.io');
 const program = require('commander');
+const _ = require('underscore');
 const DMX = require('../dmx');
 const Scenes = require("./lib/Scenes.js")
 const Devices = require("./lib/Devices.js")
@@ -167,6 +168,9 @@ const DMXWeb = () => {
   this.makeSocketServer = () => {
     const io = socketio.listen(server);
 
+    /**
+     * On socket connect
+     */
     io.sockets.on('connection', (socket) => {
 
       /**
@@ -219,9 +223,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user save/update scene
-           */
+            /**
+             * On user save/update scene
+             */
           case "save-scene":
 
             if (!config.allowEditing) {
@@ -243,9 +247,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user delete scene
-           */
+            /**
+             * On user delete scene
+             */
           case "delete-scene":
 
             if (!config.allowEditing) {
@@ -267,9 +271,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user save/update device
-           */
+            /**
+             * On user save/update device
+             */
           case "save-device":
 
             if (!config.allowEditing) {
@@ -291,9 +295,9 @@ const DMXWeb = () => {
             })
             break;
 
-          /**
-           * On user delete device
-           */
+            /**
+             * On user delete device
+             */
           case "delete-device":
 
             if (!config.allowEditing) {
@@ -319,16 +323,43 @@ const DMXWeb = () => {
             console.log("Warning! Invalid data-request type received!")
         }
       });
-
-      /**
-       * Send updated dmx values to client
-       */
-      dmx.on('update', (universe, update) => {
-        socket.emit('update-dmx', universe, update);
-      });
     });
+
+    return io
   }
 
+  /**
+   * Broadcast dmx updates with debounce to not kill low power clients
+   */
+  this.handleDmxUpdates = () => {
+    let dmxUpdates = {}
+
+    /**
+     * Send updated dmx values to client (with limit)
+     */
+    const sendUpdate = _.throttle(() => {
+      for(let universe in dmxUpdates){
+        io.emit('update-dmx', universe, dmxUpdates[universe]);
+      }
+
+      dmxUpdates = {}
+    }, 50)
+
+
+    dmx.on('update', (universe, update) => {
+      
+      if(!(universe in dmxUpdates)){
+        dmxUpdates[universe] = update
+      }else{
+        for(let channel in update){
+          dmxUpdates[universe][channel] = update[channel]
+        }
+      }
+
+      sendUpdate()
+    });
+
+  }
 
   const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
   const dmx = this.getDMX()
@@ -337,6 +368,8 @@ const DMXWeb = () => {
   const app = this.makeApp();
   const server = this.makeServer()
   const io = this.makeSocketServer()
+
+  this.handleDmxUpdates()
 }
 
 
