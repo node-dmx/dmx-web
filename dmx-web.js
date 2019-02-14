@@ -152,6 +152,21 @@ const DMXWeb = () => {
       }
     });
 
+    /**
+     * Set scene 
+     */
+    app.post('/scene/:sceneId', (req, res) => {
+      req.params.sceneId
+
+      scenes.updateScene({
+        sceneId: req.params.sceneId
+      })
+
+      res.json({
+        'success': true
+      });
+    });
+
     return app;
   }
 
