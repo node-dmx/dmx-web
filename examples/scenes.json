@@ -314,5 +314,47 @@
         "universe": "office"
       }
     ]
+  },
+  {
+    "id": "fhfdghdfgh-1cf6-fghj-vbnm-ghjk827e01ac",
+    "label": "Transition 1",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "transition": 5000,
+        "channel": "1",
+        "value": "255",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "transition": 5000,
+        "channel": "3",
+        "value": "255",
+        "universe": "office"
+      }
+    ]
+  },
+  {
+    "id": "wertwertw-1cf6-erty-3456-b81aerty01ac",
+    "label": "Transition 2",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "transition": 5000,
+        "channel": "1",
+        "value": "0",
+        "universe": "office"
+      },
+      {
+        "type": "static",
+        "transition": 5000,
+        "channel": "3",
+        "value": "0",
+        "universe": "office"
+      }
+    ]
   }
 ]
