@@ -8,6 +8,7 @@ const EditorRenderer = function(editor, app) {
       universe: Object.keys(app.socket.config.universes)[0],
       channel: 1,
       value: 0,
+      transition: 0
     }))
   })
 
@@ -38,7 +39,9 @@ const EditorRenderer = function(editor, app) {
    * On add animation value
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-step-add-row", (e) => {
-    $(e.target).closest(".editor-scene-animation-step").find(".editor-scene-animation-step-values").append(this.generateAnimationStepRowHtml(0, 0))
+    const step = $(e.target).closest(".editor-scene-animation-step")
+    const universe = step.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
+    step.find(".editor-scene-animation-step-values").append(this.generateAnimationStepRowHtml(universe, 1, 0))
   })
 
   /**
@@ -377,7 +380,7 @@ const EditorRenderer = function(editor, app) {
                 ${universeOptions}
               </select>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
               <div class="input-group">
                 <input type="text" class="form-control w-25 editor-scene-static-channel" value="${val.channel}"></input>
                 <div class="input-group-append w-75">
@@ -386,6 +389,9 @@ const EditorRenderer = function(editor, app) {
                   </span>
                 </div>
               </div>
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control editor-scene-static-transition col-sm-12" value="${val.transition || 0}"></input>
             </div>
             <div class="col-md-2">
               <input type="text" class="form-control editor-scene-static-value col-sm-12" value="${val.value}"></input>

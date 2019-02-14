@@ -343,17 +343,17 @@
     "values": [
       {
         "type": "static",
-        "transition": 5000,
         "channel": "1",
         "value": "0",
-        "universe": "office"
+        "universe": "office",
+        "transition": "5000"
       },
       {
         "type": "static",
-        "transition": 5000,
         "channel": "3",
         "value": "0",
-        "universe": "office"
+        "universe": "office",
+        "transition": "5000"
       }
     ]
   }

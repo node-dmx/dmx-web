@@ -124,13 +124,15 @@ const EditorController = function(app) {
     $("div.editor-scene-static-row").each((i, e) => {
       const channel = $(e).find(".editor-scene-static-channel").val()
       const value = $(e).find(".editor-scene-static-value").val()
+      const transition = $(e).find(".editor-scene-static-transition").val()
       const universe = $(e).find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
 
       values.push({
         type: "static",
         channel,
         value,
-        universe
+        universe,
+        transition
       })
     })
 
