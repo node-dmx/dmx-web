@@ -88,25 +88,29 @@
         "type": "static",
         "channel": "6",
         "value": "20",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "5",
         "value": "20",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "19",
         "value": "255",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "24",
         "value": "30",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "animation",
@@ -166,7 +170,7 @@
       },
       {
         "type": "animation",
-        "label": "New Animation",
+        "label": "Tilt",
         "universe": "office",
         "steps": [
           {
@@ -354,6 +358,216 @@
         "value": "0",
         "universe": "office",
         "transition": "5000"
+      }
+    ]
+  },
+  {
+    "id": "3f9b9223-c2a4-428f-92ab-f8ea0e42b6bf",
+    "label": "Blue 1",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "1",
+        "value": "142",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "68",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "33",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "12",
+        "value": "26",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "14",
+        "value": "79",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "17",
+        "value": "10",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "20",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      }
+    ]
+  },
+  {
+    "id": "dda176ed-c585-4b61-8916-7a793828f5cc",
+    "label": "Blue 2",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "1",
+        "value": "150",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "26",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "5",
+        "value": "33",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "12",
+        "value": "19",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "14",
+        "value": "44",
+        "universe": "office",
+        "transition": "5000"
+      },
+      {
+        "type": "static",
+        "channel": "17",
+        "value": "10",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "20",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      }
+    ]
+  },
+  {
+    "id": "80448359-ac7e-431c-ba69-f70ffe802a95",
+    "label": "White Beams",
+    "type": "full",
+    "values": [
+      {
+        "type": "static",
+        "channel": "3",
+        "value": "20",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "8",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "14",
+        "value": "40",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "17",
+        "value": "10",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "18",
+        "value": "170",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "19",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "20",
+        "value": "100",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "animation",
+        "label": "Pan",
+        "universe": "office",
+        "steps": [
+          {
+            "delay": "0",
+            "channels": {
+              "1": "0",
+              "12": "255"
+            }
+          },
+          {
+            "delay": "2000",
+            "channels": {
+              "1": "255",
+              "12": "0"
+            }
+          },
+          {
+            "delay": "2000",
+            "channels": {
+              "1": "0",
+              "12": "255"
+            }
+          }
+        ]
       }
     ]
   }

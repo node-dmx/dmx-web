@@ -50,9 +50,10 @@ const EditorRenderer = function(editor, app) {
   $("#editor-scene-editor").on("click", ".editor-scene-animation-add-step", (e) => {
     const container = $(e.target).closest(".editor-scene-animation").find(".editor-scene-animation-steps-container")
     const count = container.children().length + 1
-
+    const universe = container.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
+    
     container.append(
-      this.generateAnimationEditorStepHtml(count, {
+      this.generateAnimationEditorStepHtml(universe, count, {
         channels: {
           1: 0
         },
