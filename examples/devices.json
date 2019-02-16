@@ -19,6 +19,16 @@
     "universe": "office"
   },
   {
+    "id": "1e658b37-e44e-4630-9533-09e3eab2ab3c",
+    "label": "",
+    "universe": "office",
+    "address": 1,
+    "type": "generic",
+    "channels": [
+      "dimmer"
+    ]
+  },
+  {
     "id": "5ae890f-0126-92cd-dd03-ac22de4a7628",
     "label": "MiniLED Moving Head",
     "channels": [
@@ -44,6 +54,16 @@
     "label": "My Dimmer",
     "universe": "office",
     "address": 100,
+    "type": "generic",
+    "channels": [
+      "dimmer"
+    ]
+  },
+  {
+    "id": "fcc56b44-bcaf-4a53-b2fc-af314a294aff",
+    "label": "",
+    "universe": "office",
+    "address": 1,
     "type": "generic",
     "channels": [
       "dimmer"

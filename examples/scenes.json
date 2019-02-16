@@ -1,43 +1,5 @@
 [
   {
-    "id": "dd15e921-1cf6-4cd0-b865-b81a827e01ac",
-    "label": "Test 1",
-    "type": "full",
-    "values": [
-      {
-        "type": "static",
-        "channel": "1",
-        "value": "255",
-        "universe": "office"
-      },
-      {
-        "type": "static",
-        "channel": "3",
-        "value": "255",
-        "universe": "office"
-      }
-    ]
-  },
-  {
-    "id": "a3958770-794c-49e7-b1b7-018eb7a08d64",
-    "label": "Test 2",
-    "type": "full",
-    "values": [
-      {
-        "type": "static",
-        "channel": "1",
-        "value": "0",
-        "universe": "office"
-      },
-      {
-        "type": "static",
-        "channel": "5",
-        "value": "0",
-        "universe": "office"
-      }
-    ]
-  },
-  {
     "id": "8f0b4e4d-dfe1-410d-99c6-4b978d96fc52",
     "label": "Animation Test",
     "type": "full",
@@ -256,6 +218,7 @@
     "id": "b0a17e50-b83d-458a-804e-ecce07166c41",
     "label": "Blue Rings",
     "type": "full",
+    "default": true,
     "values": [
       {
         "type": "static",

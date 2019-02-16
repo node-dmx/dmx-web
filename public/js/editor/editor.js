@@ -1,6 +1,7 @@
 const EditorController = function(app) {
 
-  this.renderer = new EditorRenderer(this, app)
+  this.staticRenderer = new EditorStaticRenderer(this, app)
+  this.animationRenderer = new EditorAnimationRenderer(this, app)
 
   this.currentScene = null
 
@@ -10,7 +11,7 @@ const EditorController = function(app) {
   $(".editor-scene-selector").on("click", (e) => {
     app.socket.getScene($(e.target).attr("scene_id"), (scene) => {
       this.currentScene = scene
-      this.renderer.drawSceneEditor(this.currentScene)
+      this.drawSceneEditor(this.currentScene)
     })
   })
 
@@ -64,6 +65,26 @@ const EditorController = function(app) {
       window.location.reload(true)
     })
   })
+
+  this.getChannelLabel = (universe, channel) => {
+    for(let device of app.socket.devices){
+      if(device.universe == universe && device.address <= channel && device.address + device.channels.length > channel) {
+        return device.label + ": " + device.channels[channel - device.address]
+      }
+    }
+
+    return "Unknown"
+  }
+
+  this.drawSceneEditor = (scene) => {
+    $("#editor-scene-title").text(scene.label)
+
+    $("#editor-scene-static").html(this.staticRenderer.generateStaticEditorHtml(scene))
+    $("#editor-scene-animations").html(this.animationRenderer.generateAnimationEditorHtml(scene))
+
+    $("#editor-scene-help").hide()
+    $("#editor-scene-editor").show()
+  }
 
   /**
    * Compile scene and send to server
@@ -141,7 +162,7 @@ const EditorController = function(app) {
 
   this.setScene = (scene) => {
     this.currentScene = scene
-    this.renderer.drawSceneEditor(this.currentScene)
+    this.drawSceneEditor(this.currentScene)
   }
 
   return this
