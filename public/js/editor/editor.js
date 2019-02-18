@@ -66,10 +66,34 @@ const EditorController = function(app) {
     })
   })
 
+  this.getFriendlyChannelName = (channel) => {
+    switch (channel) {
+      case "static-color":
+        return "Color"
+        break
+      case "gobo-selector":
+        return "Gobo"
+        break
+      case "dimmer-strobe-combo":
+        return "Dimmer/Strobe"
+        break
+      default:
+        // return channel.charAt(0).toUpperCase() + channel.slice(1).replace("-", " ");
+        return channel.split("-").map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1)
+        }).join(" ");
+        break
+    }
+  }
+
   this.getChannelLabel = (universe, channel) => {
-    for(let device of app.socket.devices){
-      if(device.universe == universe && device.address <= channel && device.address + device.channels.length > channel) {
-        return device.label + ": " + device.channels[channel - device.address]
+    const lineLength = 8
+
+    for (let device of app.socket.devices) {
+      if (device.universe == universe && device.address <= channel && device.address + device.channels.length > channel) {
+        const channelName = this.getFriendlyChannelName(device.channels[channel - device.address])
+        const truncatedDeviceName = (device.label.length + channelName.length < lineLength) ? device.label + ": " : device.label.slice(0, lineLength) + " … "
+        return `<span class="d-none d-xl-inline">${truncatedDeviceName}</span>${channelName}`
       }
     }
 

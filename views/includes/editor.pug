@@ -108,15 +108,15 @@
           h4 Static
           br
           div.row
-            div.col-sm-3
+            div.col-sm-3.col-xl-2
               p Universe
-            div.col-sm-3
+            div.col-sm-3.col-xl-5
               p Channel
-            div.col-sm-2
-              p Transition(ms)
-            div.col-sm-3
+            div.col-sm-2.col-xl-2
+              p Transition
+            div.col-sm-3.col-xl-2
               p Value
-            div.col-sm-1
+            div.col-sm-1.col-xl-1
           div#editor-scene-static
             p.text-secondary.text-center No Static Values 
 
@@ -152,7 +152,7 @@
                 button.btn.btn-danger.btn-sm.float-right.editor-device-delete(editor-device-id=device.id)
                   i.fas.force-parent-lh.fa-trash-alt
               div
-                .col-sm-11.offset-md-1
+                .col-sm-12
                   table.table-sm.table-borderless.text-white
                     each channel, k in device.channels
                       tr
@@ -181,4 +181,4 @@
                             i.hide-on-xxl.fas.fa-circle.text-primary.mr-2
                           if channel == "white" || channel.match(/^white\d+$/g)
                             i.hide-on-xxl.fas.fa-circle.mr-2
-                          =channel
+                          =scenesController.getFriendlyChannelName(channel)

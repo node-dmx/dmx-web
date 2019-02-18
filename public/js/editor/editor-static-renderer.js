@@ -25,7 +25,7 @@ const EditorStaticRenderer = function(editor, app) {
   $("#editor-scene-editor").on("change keyup paste", ".editor-scene-static-channel", (e) => {
     const row = $(e.target).closest(".editor-scene-static-row");
     const universe = row.find(".editor-scene-static-universe").find("option:selected").attr("editor-universe")
-    row.find(".editor-scene-static-channel-label").text(editor.getChannelLabel(universe, $(e.target).val()))
+    row.find(".editor-scene-static-channel-label").html(editor.getChannelLabel(universe, $(e.target).val()))
   })
 
   /**
@@ -33,6 +33,13 @@ const EditorStaticRenderer = function(editor, app) {
    */
   $("#editor-scene-editor").on("change", ".editor-scene-static-universe", (e) => {
     $(".editor-scene-static-channel").trigger("change")
+  })
+
+  /**
+   * On edit static universe
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-static-channel-select", (e) => {
+    $(e.currentTarget).closest(".editor-scene-static-channel-container").find(".editor-scene-static-channel").val($(e.currentTarget).attr("editor-scene-static-channel-select-address")).change()
   })
 
   this.generateStaticEditorHtml = (scene) => {
@@ -59,30 +66,45 @@ const EditorStaticRenderer = function(editor, app) {
       `
     }
 
+    let channelOptions = ""
+
+    for (let device of app.socket.devices) {
+      if (device.universe == val.universe) {
+        channelOptions += `<button class="dropdown-item disabled" type="button">${device.label}</button>`
+
+        for(let i = 0 ; i < device.channels.length; i++){
+          channelOptions += `<button class="dropdown-item editor-scene-static-channel-select" type="button" editor-scene-static-channel-select-address="${device.address + i}">${editor.getFriendlyChannelName(device.channels[i])}</button>`
+        }
+
+        channelOptions += `<div role="separator" class="dropdown-divider"></div>`
+      }
+    }
+
     return `
           <div class="editor-scene-static-row mb-3 row">
-            <div class="col-md-3">
+            <div class="col-sm-3 col-xl-2">
               <select class="editor-scene-static-universe form-control">
                 ${universeOptions}
               </select>
             </div>
-            <div class="col-md-3">
-              <div class="input-group">
+            <div class="col-sm-3 col-xl-5">
+              <div class="input-group editor-scene-static-channel-container">
                 <input type="text" class="form-control w-25 editor-scene-static-channel" value="${val.channel}"></input>
                 <div class="input-group-append w-75">
-                  <span class="input-group-text w-100">
-                    <span class="truncate editor-scene-static-channel-label">${editor.getChannelLabel(val.universe, val.channel)}</span>
-                  </span>
+                  <button class="truncate editor-scene-static-channel-label btn text-right btn-block btn-outline-secondary dropdown-toggle btn-light" type="button" data-toggle="dropdown">${editor.getChannelLabel(val.universe, val.channel)}</button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    ${channelOptions}
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-2 col-xl-2">
               <input type="text" class="form-control editor-scene-static-transition col-sm-12" value="${val.transition || 0}"></input>
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-2 col-xl-2">
               <input type="text" class="form-control editor-scene-static-value col-sm-12" value="${val.value}"></input>
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-2 col-xl-1">
               <button class="btn btn-danger btn-block editor-scene-static-row-remove"><i class="fas force-parent-lh fa-trash-alt"></i></button>
             </div>
           </div>`

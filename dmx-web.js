@@ -65,6 +65,7 @@ const DMXWeb = () => {
     app.get('/', (req, res) => {
       res.render('index', {
         scenes: scenes.getObject(),
+        scenesController: scenes,
         config: config,
         devices: devices.getObject(),
         deviceTypes: dmx.devices
