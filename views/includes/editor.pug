@@ -71,72 +71,71 @@
   br
 
   .row
-    .col-lg-9
-      .row
-        .col-md-3.col-sm-4
-          .card.bg-dark.text-white
-            .card-header
-              h2
-                span Scenes
-                button.btn.btn-info.float-right(data-toggle="modal" data-target="#editor-scene-creator-modal")
-                  i.fas.force-parent-lh.fa-plus
-            .list-group
-              each scene, index in scenes
-                if !scene.hidden && !scene.legacy
-                  button.list-group-item.list-group-item-action.bg-dark.text-white.editor-scene-selector(scene_id=scene.id)=scene.label
 
-        .col-md-9.col-sm-8
+    .col-md-12.col-lg-3.col-xl-2
+      .card.bg-dark.text-white
+        .card-header
+          h2
+            span Scenes
+            button.btn.btn-info.float-right(data-toggle="modal" data-target="#editor-scene-creator-modal")
+              i.fas.force-parent-lh.fa-plus
+        .list-group
+          each scene, index in scenes
+            if !scene.hidden && !scene.legacy
+              button.list-group-item.list-group-item-action.bg-dark.text-white.editor-scene-selector(scene_id=scene.id)=scene.label
 
-          .card.bg-dark.text-white#editor-scene-help
-            .card-body.text-center
-              br
-              h5.text-secondary Select a scene from the left to edit, or:
-              br
-              button.btn.btn-info.btn-lg(data-toggle="modal" data-target="#editor-scene-creator-modal") Create A New Scene
-              br
-              br
+    .col-md-12.col-lg-9.col-xl-8
+      br.d-lg-none
+      .card.bg-dark.text-white#editor-scene-help
+        .card-body.text-center
+          br
+          h5.text-secondary Select a scene from the left to edit, or:
+          br
+          button.btn.btn-info.btn-lg(data-toggle="modal" data-target="#editor-scene-creator-modal") Create A New Scene
+          br
+          br
 
-          .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
-            .card-header
-              h1
-                span#editor-scene-title Scene Title
-                button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
-                  i.fas.force-parent-lh.fa-trash-alt
-                button.btn.btn-primary.btn-lg.float-right.mr-3#editor-scene-save
-                  i.fas.force-parent-lh.fa-save
-            .card-body
-              
-              h4 Static
-              br
-              div.row
-                div.col-sm-3
-                  p Universe
-                div.col-sm-3
-                  p Channel
-                div.col-sm-2
-                  p Transition(ms)
-                div.col-sm-3
-                  p Value
-                div.col-sm-1
-              div#editor-scene-static
-                p.text-secondary.text-center No Static Values 
+      .card.bg-dark.text-white#editor-scene-editor(style="display: none;")
+        .card-header
+          h1
+            span#editor-scene-title Scene Title
+            button.btn.btn-danger.btn-lg.float-right#editor-scene-delete
+              i.fas.force-parent-lh.fa-trash-alt
+            button.btn.btn-primary.btn-lg.float-right.mr-3#editor-scene-save
+              i.fas.force-parent-lh.fa-save
+        .card-body
+          
+          h4 Static
+          br
+          div.row
+            div.col-sm-3
+              p Universe
+            div.col-sm-3
+              p Channel
+            div.col-sm-2
+              p Transition(ms)
+            div.col-sm-3
+              p Value
+            div.col-sm-1
+          div#editor-scene-static
+            p.text-secondary.text-center No Static Values 
 
-              br
+          br
 
-              button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
+          button.btn.btn-secondary.btn-block#editor-scene-add-static Add Static Value
 
-              hr
+          hr
 
-              h4 Animations
-              br
-              div#editor-scene-animations
-                p.text-secondary.text-center No Animations
+          h4 Animations
+          br
+          div#editor-scene-animations
+            p.text-secondary.text-center No Animations
 
-              br
+          br
 
-              button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
+          button.btn.btn-secondary.btn-block#editor-scene-add-animation Add Animation
 
-    .col-lg-3
+    .d-none.d-xl-block.col-xl-2
       .card.bg-dark.text-white
         .card-header
           h2
