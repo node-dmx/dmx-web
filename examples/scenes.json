@@ -464,22 +464,8 @@
       },
       {
         "type": "static",
-        "channel": "8",
-        "value": "255",
-        "universe": "office",
-        "transition": "0"
-      },
-      {
-        "type": "static",
         "channel": "14",
         "value": "40",
-        "universe": "office",
-        "transition": "0"
-      },
-      {
-        "type": "static",
-        "channel": "17",
-        "value": "10",
         "universe": "office",
         "transition": "0"
       },
@@ -505,17 +491,24 @@
         "transition": "0"
       },
       {
+        "type": "static",
+        "channel": "8",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
+        "type": "static",
+        "channel": "17",
+        "value": "255",
+        "universe": "office",
+        "transition": "0"
+      },
+      {
         "type": "animation",
         "label": "Pan",
         "universe": "office",
         "steps": [
-          {
-            "delay": "0",
-            "channels": {
-              "1": "0",
-              "12": "255"
-            }
-          },
           {
             "delay": "2000",
             "channels": {
