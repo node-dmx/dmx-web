@@ -91,7 +91,7 @@ const EditorStaticRenderer = function(editor, app) {
               <div class="input-group editor-scene-static-channel-container">
                 <input type="text" class="form-control w-25 editor-scene-static-channel" value="${val.channel}"></input>
                 <div class="input-group-append w-75">
-                  <button class="truncate editor-scene-static-channel-label btn text-right btn-block btn-outline-secondary dropdown-toggle btn-light" type="button" data-toggle="dropdown">${editor.getChannelLabel(val.universe, val.channel)}</button>
+                  <button class="truncate btn text-left btn-block btn-outline-secondary btn-light" type="button" data-toggle="dropdown"><i class="fas fa-caret-down mr-2"></i><span class="editor-scene-static-channel-label">${editor.getChannelLabel(val.universe, val.channel)}</span></button>
                   <div class="dropdown-menu dropdown-menu-right">
                     ${channelOptions}
                   </div>

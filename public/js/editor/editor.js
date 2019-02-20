@@ -16,6 +16,26 @@ const EditorController = function(app) {
   })
 
   /**
+   * On create new scene
+   */
+  $("#editor-scene-modal-save").on("click", (e) => {
+    if ($("#editor-scene-creator-modal-name").val() === "") return
+
+    const id = app.socket.generateUUID()
+
+    scene = {
+      id: id,
+      label: $("#editor-scene-creator-modal-name").val(),
+      type: "full",
+      values: []
+    }
+
+    $("#editor-scene-creator-modal-name").val("")
+    
+    this.setScene(scene)
+  })
+
+  /**
    * On save scene
    */
   $("#editor-scene-save").on("click", (e) => {
