@@ -87,13 +87,10 @@ const EditorController = function(app) {
   }
 
   this.getChannelLabel = (universe, channel) => {
-    const lineLength = 8
-
     for (let device of app.socket.devices) {
       if (device.universe == universe && device.address <= channel && device.address + device.channels.length > channel) {
         const channelName = this.getFriendlyChannelName(device.channels[channel - device.address])
-        const truncatedDeviceName = (device.label.length + channelName.length < lineLength) ? device.label + ": " : device.label.slice(0, lineLength) + " … "
-        return `<span class="d-none d-xl-inline">${truncatedDeviceName}</span>${channelName}`
+        return `<span class="d-none d-xl-inline">${device.label}: </span>${channelName}`
       }
     }
 
