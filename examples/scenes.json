@@ -218,7 +218,6 @@
     "id": "b0a17e50-b83d-458a-804e-ecce07166c41",
     "label": "Blue Rings",
     "type": "full",
-    "default": true,
     "values": [
       {
         "type": "static",
@@ -524,6 +523,29 @@
             }
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "dfg345sd5-34fw-22rt-6dw4-345fdgdf6u32",
+    "label": "Code Test 1",
+    "default": true,
+    "type": "full",
+    "values": [
+      {
+        "type": "script",
+        "code": "setInterval(() => {console.log('Ayyy');dmx.set('office', 1, Math.floor(Math.random() * 255))}, 500)"
+      }
+    ]
+  },
+  {
+    "id": "r3gsdfads-wert-dfgdt-xcvb-wertersfsd",
+    "label": "Code Test 2",
+    "type": "full",
+    "values": [
+      {
+        "type": "script",
+        "code": "setInterval(() => {console.log('Baddabing!');dmx.set('office', 1, 128)}, 250)"
       }
     ]
   }
