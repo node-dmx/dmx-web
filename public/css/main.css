@@ -58,3 +58,7 @@ input[type=range][orient=vertical]
         display: none;
     }
 }
+
+.editor-scene-script-editor{
+  min-height:100px;
+}

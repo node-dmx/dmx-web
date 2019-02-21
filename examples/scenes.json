@@ -162,55 +162,64 @@
         "type": "static",
         "channel": "1",
         "value": "86",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "3",
         "value": "127",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "5",
         "value": "32",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "6",
         "value": "13",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "8",
         "value": "255",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "14",
         "value": "128",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "17",
         "value": "255",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "20",
         "value": "255",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       },
       {
         "type": "static",
         "channel": "24",
         "value": "26",
-        "universe": "office"
+        "universe": "office",
+        "transition": "0"
       }
     ]
   },
@@ -534,7 +543,7 @@
     "values": [
       {
         "type": "script",
-        "code": "setInterval(() => {console.log('Setting channel 1 to random value');dmx.set('office', 1, Math.floor(Math.random() * 255))}, 500)"
+        "code": "setInterval(() => {console.log('Setting channel 1 to a random value');dmx.set('office', 1, Math.floor(Math.random() * 255))}, 500)"
       }
     ]
   },
@@ -545,7 +554,7 @@
     "values": [
       {
         "type": "script",
-        "code": "setInterval(() => {dmx.set('office', 1, 128)}, 250)"
+        "code": "dmx.set('office', 1, 254)"
       }
     ]
   }

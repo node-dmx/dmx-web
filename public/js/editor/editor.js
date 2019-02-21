@@ -2,6 +2,7 @@ const EditorController = function(app) {
 
   this.staticRenderer = new EditorStaticRenderer(this, app)
   this.animationRenderer = new EditorAnimationRenderer(this, app)
+  this.scriptRenderer = new EditorScriptRenderer(this, app)
 
   this.currentScene = null
 
@@ -122,6 +123,9 @@ const EditorController = function(app) {
 
     $("#editor-scene-static").html(this.staticRenderer.generateStaticEditorHtml(scene))
     $("#editor-scene-animations").html(this.animationRenderer.generateAnimationEditorHtml(scene))
+    $("#editor-scene-scripts").html(this.scriptRenderer.generateScriptEditorHtml(scene))
+    
+    this.scriptRenderer.buildEditors(scene)
 
     $("#editor-scene-help").hide()
     $("#editor-scene-editor").show()
@@ -137,6 +141,7 @@ const EditorController = function(app) {
 
     scene.values.push(...this.compileStaticScenes())
     scene.values.push(...this.compileAnimationScenes())
+    scene.values.push(...this.compileScriptScenes())
 
     app.socket.saveScene(scene, (response) => {
       window.location.reload(true)
@@ -197,6 +202,22 @@ const EditorController = function(app) {
         transition
       })
     })
+
+    return values
+  }
+
+  /**
+   * Read HTML and turn into scripts
+   */
+  this.compileScriptScenes = () => {
+    const values = []
+
+    for(let editor of this.scriptRenderer.editors){
+      values.push({
+        type: "script",
+        code: editor.getValue()
+      })
+    }
 
     return values
   }
