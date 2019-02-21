@@ -534,7 +534,7 @@
     "values": [
       {
         "type": "script",
-        "code": "setInterval(() => {console.log('Ayyy');dmx.set('office', 1, Math.floor(Math.random() * 255))}, 500)"
+        "code": "setInterval(() => {console.log('Setting channel 1 to random value');dmx.set('office', 1, Math.floor(Math.random() * 255))}, 500)"
       }
     ]
   },
@@ -545,7 +545,7 @@
     "values": [
       {
         "type": "script",
-        "code": "setInterval(() => {console.log('Baddabing!');dmx.set('office', 1, 128)}, 250)"
+        "code": "setInterval(() => {dmx.set('office', 1, 128)}, 250)"
       }
     ]
   }
