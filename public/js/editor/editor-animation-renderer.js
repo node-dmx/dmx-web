@@ -148,7 +148,14 @@ const EditorAnimationRenderer = function(editor, app) {
     const row = $(e.target).closest(".editor-scene-animation-step-row");
     const universe = row.closest(".editor-scene-animation").attr("editor-scene-animation-universe")
 
-    row.find(".editor-scene-animation-step-channel-label").text(editor.getChannelLabel(universe, $(e.target).val()))
+    row.find(".editor-scene-animation-step-channel-label").html(editor.getChannelLabel(universe, $(e.target).val()))
+  })
+
+  /**
+   * On select animation universe channel
+   */
+  $("#editor-scene-editor").on("click", ".editor-scene-animation-channel-select", (e) => {
+    $(e.currentTarget).closest(".editor-scene-animation-step-row").find(".editor-scene-animation-step-channel").val($(e.currentTarget).attr("editor-scene-animation-channel-select-address")).change()
   })
 
   this.generateAnimationEditorHtml = (scene) => {
@@ -254,15 +261,30 @@ const EditorAnimationRenderer = function(editor, app) {
   }
 
   this.generateAnimationStepRowHtml = (universe, channel, value) => {
+    let channelOptions = ""
+
+    for (let device of app.socket.devices) {
+      if (device.universe == universe) {
+        channelOptions += `<button class="dropdown-item disabled" type="button">${device.label}</button>`
+
+        for(let i = 0 ; i < device.channels.length; i++){
+          channelOptions += `<button class="dropdown-item editor-scene-animation-channel-select" type="button" editor-scene-animation-channel-select-address="${device.address + i}">${editor.getFriendlyChannelName(device.channels[i])}</button>`
+        }
+
+        channelOptions += `<div role="separator" class="dropdown-divider"></div>`
+      }
+    }
+
     return `
           <div class="editor-scene-animation-step-row mb-3 row">
             <div class="col-md-8">
               <div class="input-group">
-                <input type="text" class="form-control editor-scene-animation-step-channel col-sm-12" value="${channel}"></input>
+                <input type="text" class="form-control w-25 editor-scene-animation-step-channel" value="${channel}"></input>
                 <div class="input-group-append w-75">
-                  <span class="input-group-text w-100">
-                    <span class="truncate editor-scene-animation-step-channel-label">${editor.getChannelLabel(universe, channel)}</span>
-                  </span>
+                  <button class="truncate btn text-left btn-block btn-outline-secondary btn-light" type="button" data-toggle="dropdown"><i class="fas fa-caret-down mr-2"></i><span class="editor-scene-animation-step-channel-label">${editor.getChannelLabel(universe, channel)}</span></button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    ${channelOptions}
+                  </div>
                 </div>
               </div>
             </div>

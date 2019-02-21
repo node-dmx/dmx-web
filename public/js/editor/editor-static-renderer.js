@@ -36,7 +36,7 @@ const EditorStaticRenderer = function(editor, app) {
   })
 
   /**
-   * On edit static universe
+   * On select static universe channel
    */
   $("#editor-scene-editor").on("click", ".editor-scene-static-channel-select", (e) => {
     $(e.currentTarget).closest(".editor-scene-static-channel-container").find(".editor-scene-static-channel").val($(e.currentTarget).attr("editor-scene-static-channel-select-address")).change()
