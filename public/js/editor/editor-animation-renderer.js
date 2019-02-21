@@ -152,7 +152,7 @@ const EditorAnimationRenderer = function(editor, app) {
   })
 
   /**
-   * On select animation universe channel
+   * On select animation channel
    */
   $("#editor-scene-editor").on("click", ".editor-scene-animation-channel-select", (e) => {
     $(e.currentTarget).closest(".editor-scene-animation-step-row").find(".editor-scene-animation-step-channel").val($(e.currentTarget).attr("editor-scene-animation-channel-select-address")).change()
@@ -250,9 +250,7 @@ const EditorAnimationRenderer = function(editor, app) {
 
     html += `
           </div>
-
           <button class="btn btn-secondary btn-block editor-scene-animation-step-add-row">Add Value</button>
-
         </div>
       </div>
       `
