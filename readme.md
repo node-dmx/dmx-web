@@ -56,6 +56,11 @@ A List of Channel Transistions can be POSTed to `/animation/<universe>`. Each tr
 A duration for this transistion can be given in the `duration` property.
 If not specified 0ms is assumed.
 
+#### Scripts
+Scripts are user provided javascript ran as part of a scene to configure DMX values.
+
+To set a DMX value call `dmx.set(universeName, channel, value)`
+
 Example:
 
 	[
