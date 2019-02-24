@@ -19,16 +19,16 @@ program
 const DMXWeb = () => {
 
   this.makeServer = () => {
-    const listenPort = config.server.listen_port || 8080;
-    const listenHost = config.server.listen_host || '::';
+    const listenPort = this.config.server.listen_port || 8080;
+    const listenHost = this.config.server.listen_host || '::';
 
-    const server = http.createServer(app);
+    const server = http.createServer(this.app);
 
     server.listen(listenPort, listenHost, null, () => {
-      if (config.server.uid && config.server.gid) {
+      if (this.config.server.uid && this.config.server.gid) {
         try {
-          process.setuid(config.server.uid);
-          process.setgid(config.server.gid);
+          process.setuid(this.config.server.uid);
+          process.setgid(this.config.server.gid);
         } catch (err) {
           console.log(err);
           process.exit(1);
@@ -40,14 +40,14 @@ const DMXWeb = () => {
   }
 
   this.getDMX = () => {
-    const dmx = new DMX(config);
+    const dmx = new DMX(this.config);
 
-    for (const universe in config.universes) {
+    for (const universe in this.config.universes) {
       dmx.addUniverse(
         universe,
-        config.universes[universe].output.driver,
-        config.universes[universe].output.device,
-        config.universes[universe].output.options
+        this.config.universes[universe].output.driver,
+        this.config.universes[universe].output.device,
+        this.config.universes[universe].output.options
       );
     }
 
@@ -64,11 +64,11 @@ const DMXWeb = () => {
 
     app.get('/', (req, res) => {
       res.render('index', {
-        scenes: scenes.getObject(),
-        scenesController: scenes,
-        config: config,
-        devices: devices.getObject(),
-        deviceTypes: dmx.devices
+        scenes: this.scenes.getObject(),
+        scenesController: this.scenes,
+        config: this.config,
+        devices: this.devices.getObject(),
+        deviceTypes: this.dmx.devices
       })
     });
 
@@ -77,12 +77,12 @@ const DMXWeb = () => {
      */
     app.get('/config', (req, res) => {
       const response = {
-        'devices': dmx.devices,
+        'devices': this.dmx.devices,
         'universes': {}
       };
 
-      Object.keys(config.universes).forEach(key => {
-        response.universes[key] = config.universes[key].devices;
+      Object.keys(this.config.universes).forEach(key => {
+        response.universes[key] = this.config.universes[key].devices;
       });
 
       res.json(response);
@@ -92,7 +92,7 @@ const DMXWeb = () => {
      * Get state of a universe
      */
     app.get('/state/:universe', (req, res) => {
-      if (!(req.params.universe in dmx.universes)) {
+      if (!(req.params.universe in this.dmx.universes)) {
         res.status(404).json({
           'error': 'universe not found'
         });
@@ -100,7 +100,7 @@ const DMXWeb = () => {
       }
 
       res.json({
-        'state': dmx.universeToObject(req.params.universe)
+        'state': this.dmx.universeToObject(req.params.universe)
       });
     });
 
@@ -108,16 +108,16 @@ const DMXWeb = () => {
      * Set state of universe. 
      */
     app.post('/state/:universe', (req, res) => {
-      if (!(req.params.universe in dmx.universes)) {
+      if (!(req.params.universe in this.dmx.universes)) {
         res.status(404).json({
           'error': 'universe not found'
         });
         return;
       }
 
-      dmx.update(req.params.universe, req.body);
+      this.dmx.update(req.params.universe, req.body);
       res.json({
-        'state': dmx.universeToObject(req.params.universe)
+        'state': this.dmx.universeToObject(req.params.universe)
       });
     });
 
@@ -126,10 +126,10 @@ const DMXWeb = () => {
      */
     app.post('/animation/:universe', (req, res) => {
       try {
-        const universe = dmx.universes[req.params.universe];
+        const universe = this.dmx.universes[req.params.universe];
 
         // preserve old states
-        const old = dmx.universeToObject(req.params.universe);
+        const old = this.dmx.universeToObject(req.params.universe);
 
         const animation = new DMX.Animation();
 
@@ -173,9 +173,10 @@ const DMXWeb = () => {
 
   this.getClientConfigData = () => {
     return {
-      devices: devices.getObject(),
-      scenes: scenes.getObject(),
-      config: config
+      devices: this.devices.getObject(),
+      scenes: this.scenes.getObject(),
+      activeScenes: this.scenes.activeScenes,
+      config: this.config
     }
   }
 
@@ -184,24 +185,24 @@ const DMXWeb = () => {
   }
 
   /**
-   * Broadcast dmx updates with debounce to not kill low power clients
+   * Broadcast this.dmx updates with debounce to not kill low power clients
    */
   this.handleDmxUpdates = () => {
     let dmxUpdates = {}
 
     /**
-     * Send updated dmx values to client (with limit)
+     * Send updated this.dmx values to client (with limit)
      */
     const sendUpdate = _.throttle(() => {
       for(let universe in dmxUpdates){
-        io.emit('update-dmx', universe, dmxUpdates[universe]);
+        this.io.emit('update-dmx', universe, dmxUpdates[universe]);
       }
 
       dmxUpdates = {}
     }, 50)
 
 
-    dmx.on('update', (universe, update) => {
+    this.dmx.on('update', (universe, update) => {
       
       if(!(universe in dmxUpdates)){
         dmxUpdates[universe] = update
@@ -216,13 +217,13 @@ const DMXWeb = () => {
 
   }
 
-  const config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
-  const dmx = this.getDMX()
-  const devices = new Devices(dmx, config.devicesFileLocation)
-  const scenes = new Scenes(this, dmx, config.universes, config.presets, config.scenesFileLocation)
-  const app = this.makeApp();
-  const server = this.makeServer()
-  const io = new SocketHandler(this, server, config, dmx, devices, scenes)
+  this.config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
+  this.dmx = this.getDMX()
+  this.devices = new Devices(this, this.config.devicesFileLocation)
+  this.scenes = new Scenes(this, this.config.universes, this.config.presets, this.config.scenesFileLocation)
+  this.app = this.makeApp();
+  this.server = this.makeServer()
+  this.io = new SocketHandler(this)
 
   this.handleDmxUpdates()
 }

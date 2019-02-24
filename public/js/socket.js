@@ -83,6 +83,10 @@ const DmxSocket = function(app) {
       this.config = res.config
       this.devices = res.devices
       this.scenes = res.scenes
+
+      for(let sceneId of res.activeScenes){
+        app.showController.setActiveScene(sceneId)
+      }
     });
 
     /**
@@ -92,6 +96,13 @@ const DmxSocket = function(app) {
       for (let channel in update) {
         app.sliderController.setSliderValue(universe, channel, update[channel])
       }
+    });
+
+    /**
+     * Recieve scene updates and update ui
+     */
+    this.socket.on('update-scene', (data) => {
+      app.showController.setActiveScene(data.sceneId)
     });
 
     /**
