@@ -52,4 +52,4 @@ This sets channels 10 and 20 to zero. Then transistions channel 10 to 255 in 2 s
 
 ## Community
 
-We're happy to help. Chat with us on IRC in #node-dmx on freenode.
+We're happy to help. Chat with us on IRC in #dmx on libera.chat.
