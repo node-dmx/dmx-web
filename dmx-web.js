@@ -52,6 +52,28 @@ function DMXWeb() {
     res.sendFile(__dirname + '/index.html');
   });
 
+	
+  app.get('/index.html', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+  });
+
+ app.get('/js/jquery-ui.min.js', (req, res) => {
+    res.sendFile(__dirname + '/js/jquery-ui.min.js');
+  });
+
+ app.get('/js/bootstrap.min.js', (req, res) => {
+    res.sendFile(__dirname + '/js/bootstrap.min.js');
+  });
+
+ app.get('/js/jquery.min.js', (req, res) => {
+    res.sendFile(__dirname + '/js/jquery.min.js');
+  });
+
+ app.get('/js/bootstrap-combined.min.css', (req, res) => {
+    res.sendFile(__dirname + '/js/bootstrap-combined.min.css');
+  });
+
+
   app.get('/config', (req, res) => {
     const response = {'devices': dmx.devices, 'universes': {}};
 
