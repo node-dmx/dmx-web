@@ -19,7 +19,7 @@
     "light control"
   ],
   "dependencies": {
-    "dmx": "file:../dmx",
+    "dmx": "^0.2.0",
     "commander": "^2.12.2",
     "express": "^4.16.2",
     "socket.io": "^2.0.4"
