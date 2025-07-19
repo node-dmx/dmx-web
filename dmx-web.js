@@ -3,7 +3,7 @@ const fs = require('fs');
 const http = require('http');
 const body = require('body-parser');
 const express = require('express');
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const program = require('commander');
 const DMX = require('dmx');
 const A = DMX.Animation;
@@ -11,14 +11,14 @@ const A = DMX.Animation;
 program
   .version('0.0.1')
   .option('-c, --config <file>', 'Read config from file [/etc/dmx-web.json]', '/etc/dmx-web.json')
-  .parse(process.argv);
+  .parse();
 
-const	config = JSON.parse(fs.readFileSync(program.config, 'utf8'));
+const	config = JSON.parse(fs.readFileSync(program.opts().config, 'utf8'));
 
 function DMXWeb() {
   const app = express();
   const server = http.createServer(app);
-  const io = socketio.listen(server);
+  const io = new Server(server);
 
   const dmx = new DMX(config);
 

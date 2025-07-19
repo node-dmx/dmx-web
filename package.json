@@ -1,14 +1,11 @@
 {
   "name": "dmx-web",
-  "version": "1.0.1",
+  "version": "1.25.0",
   "author": "Sebastian Wiedenroth <wiedi@frubar.net>",
   "description": "DMX webservice and web ui powered by node-dmx",
   "url": "https://github.com/node-dmx/dmx-web",
   "bin": {
     "dmx-web": "./dmx-web.js"
-  },
-  "scripts": {
-    "test": "node_modules/eslint/bin/eslint.js -c .eslintrc .; exit 0"
   },
   "repository": {
     "type": "git",
@@ -19,17 +16,13 @@
     "light control"
   ],
   "dependencies": {
-    "dmx": "^0.2.0",
-    "commander": "^2.12.2",
-    "express": "^4.16.2",
-    "socket.io": "^2.0.4"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.0.1"
+    "dmx": "^0.25.0",
+    "commander": "^10.0.1",
+    "express": "^4.20.0",
+    "socket.io": "^4.8.1"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   }
 }
