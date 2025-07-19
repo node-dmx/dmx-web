@@ -114,7 +114,7 @@
 			blackout.click(function() {
 				for(var universe in setup.universes) {
 					var u = {};
-					for(var i = 0; i < 255; i++) {
+					for(var i = 0; i < 512; i++) {
 						u[i] = 0;
 					}
 					socket.emit('update', universe, u);
